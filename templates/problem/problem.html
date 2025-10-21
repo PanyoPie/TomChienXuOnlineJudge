@@ -179,6 +179,11 @@
             </a>
         </div>
         <div><a href="{{ url('problem_edit', problem.code) }}">{{ _('Edit problem') }}</a></div>
+        <div><a href="{{ url('problem_edit', problem.code) }}#lang_limit_title">{{ _('Edit language limits') }}</a></div>
+        {% if request.user.is_superuser %}
+            <div><a href="{{ url('admin:judge_problem_change', problem.id) }}">{{ _('(Admin) Edit problem') }}</a></div>
+            <div><a href="{{ url('admin:judge_problem_change', problem.id) }}#translations-group">{{ _('(Admin) Edit translations') }}</a></div>
+        {% endif %}
         {% if not problem.is_manually_managed %}
             <div><a href="{{ url('problem_data', problem.code) }}">{{ _('Edit test data') }}</a></div>
         {% endif %}
