@@ -3,7 +3,8 @@
 .magazine-layout {
     display: flex;
     min-height: calc(100vh - 56px);
-    background: $color_blog_bg;
+    // TomChienXu: Disable background color to support custom background image
+    // background: $color_blog_bg;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
     position: relative;
 }
@@ -187,8 +188,15 @@
     align-items: center;
     gap: 16px;
     padding: 16px 24px;
-    background: $color_blog_bg;
-    border-bottom: 1px solid $color_blog_border;
+    // TomChienXu: Disable background color and make it blurry to support custom background image
+    // background: $color_blog_bg;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    // TomChienXu: Use full border instead of border-bottom only
+    // border-bottom: 1px solid $color_blog_border;
+    border: 1px solid $color_blog_border;
+    border-radius: 4px;
+    margin: 0 24px;
     position: sticky;
     top: 56px;
     z-index: 90;
@@ -606,7 +614,9 @@
 
     &:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border-color: $color_blog_text_muted;
+        // border-color: $color_blog_text_muted;
+        // TomChienXu: Use our own hover border color
+        border-color: $highlight_blue;
 
         &::before {
             opacity: 1;

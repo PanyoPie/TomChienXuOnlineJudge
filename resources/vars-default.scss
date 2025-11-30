@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use "vars-common" as *;
 @forward "vars-common";
 
 $is_light_theme: true;
@@ -74,7 +75,8 @@ $color_blog_active_bg: #202123;
 $color_blog_accent: #1958c1;
 $color_blog_code_bg: #f7f7f7;
 $color_blog_blockquote_border: #292929;
-$color_blog_vote_active: #1a8917;
+// $color_blog_vote_active: #1a8917;
+$color_blog_vote_active: $highlight_blue;
 $color_blog_tag_bg: #f3f4f6;
 $color_blog_tag_border: #e5e7eb;
 $color_blog_tag_text: #374151;

@@ -3,8 +3,17 @@
     <script type="text/javascript">
         $(document).ready(function () {
             function add_delta_vote(id, delta) {
+                // Update classic templates (#post-score inside #post-ID)
                 let score = $('#post-' + id + ' #post-score').first();
-                score.text(parseInt(score.text()) + delta);
+                if (score.length) {
+                    score.text(parseInt(score.text()) + delta);
+                }
+
+                // Update magazine templates (#post-score-ID)
+                var magScore = $('#post-score-' + id).first();
+                if (magScore.length) {
+                    magScore.text(parseInt(magScore.text()) + delta);
+                }
             }
 
             function ajax_vote(url, id, delta, on_success) {
@@ -15,18 +24,8 @@
                         id: id
                     },
                     success: function (data, textStatus, jqXHR) {
-                        // add_delta_vote(id, delta);
+                        add_delta_vote(id, delta);
 
-                        // Update classic templates (#post-score inside #post-ID)
-                        var score = $('#post-' + id + ' #post-score').first();
-                        if (score.length) {
-                            score.text(parseInt(score.text()) + delta);
-                        }
-                        // Update magazine templates (#post-score-ID)
-                        var magScore = $('#post-score-' + id).first();
-                        if (magScore.length) {
-                            magScore.text(parseInt(magScore.text()) + delta);
-                        }
                         if (typeof on_success !== 'undefined')
                             on_success();
                     },
@@ -47,23 +46,18 @@
             window.blog_upvote = function (id) {
                 ajax_vote('{{ url('blog_upvote') }}', id, 1, function () {
                     var $votes = get_$votes(id);
-                    if ($votes.downvote.hasClass('voted')) {
-                        $votes.downvote.removeClass('voted');
-<<<<<<< HEAD
-                        add_delta_vote(id, 1);
-                    }
-
+                    
                     if ($votes.upvote.hasClass('voted')) {
                         $votes.upvote.removeClass('voted');
                         add_delta_vote(id, -2);
+                    } else {
+                        if ($votes.downvote.hasClass('voted')) {
+                            $votes.downvote.removeClass('voted');
+                            add_delta_vote(id, 1);
+                        }
 
-                        return;
-                    }
-
-                    $votes.upvote.addClass('voted');
-=======
-                    else
                         $votes.upvote.addClass('voted');
+                    }
 
                     // Update magazine card vote button if present
                     var $magazineCard = $('[data-post-id="' + id + '"]');
@@ -73,41 +67,43 @@
                         var $voteCount = $magazineCard.find('#post-score-' + id);
 
                         // If not already upvoted, increment and set states
-                        if (!$upvoteBtn.hasClass('voted')) {
-                            $upvoteBtn.addClass('voted').attr('aria-pressed', 'true');
+                        if ($upvoteBtn.hasClass('voted')) {
+                            $upvoteBtn.removeClass('voted').attr('aria-pressed', 'true');
                             if ($voteCount.length) {
-                                $voteCount.text(parseInt($voteCount.text()) + 1);
+                                $voteCount.text(parseInt($voteCount.text()) - 2);
                             }
+                        } else {
+                            if ($downvoteBtn.hasClass('voted')) {
+                                if ($voteCount.length) {
+                                    $voteCount.text(parseInt($voteCount.text()) + 1);
+                                }
+                            }
+
+                            $upvoteBtn.addClass('voted').attr('aria-pressed', 'true');
                         }
                         // Clear downvote state and disable both to prevent duplicate votes
                         $downvoteBtn.removeClass('voted').attr('aria-pressed', 'false');
-                        $upvoteBtn.prop('disabled', true);
-                        $downvoteBtn.prop('disabled', true);
+                        // $upvoteBtn.prop('disabled', true);
+                        // $downvoteBtn.prop('disabled', true);
                     }
->>>>>>> upstream/master
                 });
             };
 
             window.blog_downvote = function (id) {
                 ajax_vote('{{ url('blog_downvote') }}', id, -1, function () {
                     var $votes = get_$votes(id);
-                    if ($votes.upvote.hasClass('voted')) {
-                        $votes.upvote.removeClass('voted');
-<<<<<<< HEAD
-                        add_delta_vote(id, -1);
-                    }
-
+                    
                     if ($votes.downvote.hasClass('voted')) {
                         $votes.downvote.removeClass('voted');
                         add_delta_vote(id, 2);
+                    } else {
+                        if ($votes.upvote.hasClass('voted')) {
+                            $votes.upvote.removeClass('voted');
+                            add_delta_vote(id, -1);
+                        }
 
-                        return;
-                    }
-
-                    $votes.downvote.addClass('voted');
-=======
-                    else
                         $votes.downvote.addClass('voted');
+                    }
 
                     // Update magazine card vote button if present
                     var $magazineCard = $('[data-post-id="' + id + '"]');
@@ -117,18 +113,25 @@
                         var $voteCount = $magazineCard.find('#post-score-' + id);
 
                         // If not already downvoted, decrement and set states
-                        if (!$downvoteBtn.hasClass('voted')) {
-                            $downvoteBtn.addClass('voted').attr('aria-pressed', 'true');
+                        if ($downvoteBtn.hasClass('voted')) {
+                            $downvoteBtn.removeClass('voted').attr('aria-pressed', 'true');
                             if ($voteCount.length) {
-                                $voteCount.text(parseInt($voteCount.text()) - 1);
+                                $voteCount.text(parseInt($voteCount.text()) + 2);
                             }
+                        } else {
+                            if ($upvoteBtn.hasClass('voted')) {
+                                if ($voteCount.length) {
+                                    $voteCount.text(parseInt($voteCount.text()) - 1);
+                                }
+                            }
+
+                            $downvoteBtn.addClass('voted').attr('aria-pressed', 'true');
                         }
                         // Clear upvote state and disable both to prevent duplicate votes
                         $upvoteBtn.removeClass('voted').attr('aria-pressed', 'false');
-                        $upvoteBtn.prop('disabled', true);
-                        $downvoteBtn.prop('disabled', true);
+                        // $upvoteBtn.prop('disabled', true);
+                        // $downvoteBtn.prop('disabled', true);
                     }
->>>>>>> upstream/master
                 });
             };
 

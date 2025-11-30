@@ -5,7 +5,8 @@
     max-width: 90%;
     margin: 0 auto;
     padding: 40px 20px 80px;
-    background: $color_blog_bg;
+    // TomChienXu: Disable background color to support custom background image
+    // background: $color_blog_bg;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Georgia', serif;
 
     @media (max-width: 768px) {
@@ -424,9 +425,9 @@
     position: sticky;
     top: 60px;
     flex-shrink: 0;
-    width: 250px;
+    width: 280px;
 
-    margin-left: clamp(-250px, calc(-14vw + 50px), 0px);
+    margin-left: clamp(-100px, calc(-14vw + 50px), 0px);
     @media (max-width: 1200px) {
         position: relative;
         top: 0;
