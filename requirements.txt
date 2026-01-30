@@ -30,7 +30,10 @@ pyotp
 qrcode[pil]
 jsonfield @ git+https://github.com/DMOJ/jsonfield.git
 pymoss
-packaging>=22
+# *Tunaa: VNOJ's option doesn't work with empty language versions!
+# packaging>=22
+# *Tunaa: DMOJ's option just works :>
+packaging<22
 celery
 ansi2html @ git+https://github.com/VNOI-Admin/ansi2html.git
 sqlparse
