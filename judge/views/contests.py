@@ -44,11 +44,12 @@ from judge.models import Contest, ContestAnnouncement, ContestMoss, ContestParti
 from judge.tasks import on_new_contest, prepare_contest_data, rescore_problem, run_moss
 from judge.utils.celery import redirect_to_task_status, task_status_by_id, task_status_url_by_id
 from judge.utils.cms import parse_csv_ranking
+from judge.utils.infinite_paginator import InfinitePaginationMixin
 from judge.utils.opengraph import generate_opengraph
 from judge.utils.problems import _get_result_data, user_attempted_ids, user_completed_ids
 from judge.utils.ranker import ranker
 from judge.utils.stats import get_bar_chart, get_pie_chart, get_stacked_bar_chart
-from judge.utils.views import DiggPaginatorMixin, QueryStringSortMixin, SingleObjectFormView, TitleMixin, \
+from judge.utils.views import QueryStringSortMixin, SingleObjectFormView, TitleMixin, \
     add_file_response, generic_message
 
 __all__ = ['ContestList', 'ContestDetail', 'ContestRanking', 'ContestJoin', 'ContestLeave', 'ContestCalendar',
@@ -91,7 +92,7 @@ class ContestListMixin(object):
         return context
 
 
-class ContestList(QueryStringSortMixin, DiggPaginatorMixin, TitleMixin, ContestListMixin, ListView):
+class ContestList(QueryStringSortMixin, InfinitePaginationMixin, TitleMixin, ContestListMixin, ListView):
     model = Contest
     paginate_by = 20
     template_name = 'contest/list.html'
@@ -106,7 +107,7 @@ class ContestList(QueryStringSortMixin, DiggPaginatorMixin, TitleMixin, ContestL
         return timezone.now()
 
     def _get_queryset(self):
-        return super().get_queryset().prefetch_related('tags', 'organizations', 'authors', 'curators', 'testers')
+        return super().get_queryset().prefetch_related('tags', 'organization', 'authors', 'curators', 'testers')
 
     def get_queryset(self):
         self.search_query = None
@@ -160,11 +161,11 @@ class ContestList(QueryStringSortMixin, DiggPaginatorMixin, TitleMixin, ContestL
 
 
 class PrivateContestError(Exception):
-    def __init__(self, name, is_private, is_organization_private, orgs):
+    def __init__(self, name, is_private, is_organization_private, org):
         self.name = name
         self.is_private = is_private
         self.is_organization_private = is_organization_private
-        self.orgs = orgs
+        self.org = org
 
 
 class ContestMixin(object):
@@ -230,8 +231,8 @@ class ContestMixin(object):
         context['og_image'] = self.object.og_image or metadata[1]
         context['has_moss_api_key'] = settings.MOSS_API_KEY is not None
         context['logo_override_image'] = self.object.logo_override_image
-        if not context['logo_override_image'] and self.object.organizations.count() == 1:
-            context['logo_override_image'] = self.object.organizations.first().logo_override_image
+        if not context['logo_override_image'] and self.object.organization:
+            context['logo_override_image'] = self.object.organization.logo_override_image
 
         context['is_ICPC_format'] = (self.object.format.name == ICPCContestFormat.name)
         return context
@@ -248,7 +249,7 @@ class ContestMixin(object):
             contest.access_check(self.request.user)
         except Contest.PrivateContest:
             raise PrivateContestError(contest.name, contest.is_private, contest.is_organization_private,
-                                      contest.organizations.all())
+                                      contest.organization)
         except Contest.Inaccessible:
             raise Http404()
         else:
@@ -390,7 +391,7 @@ class ContestClone(ContestMixin, PermissionRequiredMixin, TitleMixin, SingleObje
 
         # Using list() to force QuerySets evaluation, as `contest.pk = None` affects these queries
         tags = list(contest.tags.all())
-        organizations = list(contest.organizations.all())
+        organization = contest.organization
         private_contestants = list(contest.private_contestants.all())
         view_contest_scoreboard = list(contest.view_contest_scoreboard.all())
         contest_problems = list(contest.contest_problems.all())
@@ -405,7 +406,7 @@ class ContestClone(ContestMixin, PermissionRequiredMixin, TitleMixin, SingleObje
         with revisions.create_revision(atomic=True):
             contest.save()
             contest.tags.set(tags)
-            contest.organizations.set(organizations)
+            contest.organization = organization
             contest.private_contestants.set(private_contestants)
             contest.view_contest_scoreboard.set(view_contest_scoreboard)
             contest.authors.add(self.request.profile)
@@ -1302,11 +1303,8 @@ class EditContest(ContestMixin, LoginRequiredMixin, TitleMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(EditContest, self).get_form_kwargs()
-        # Due to some limitation with query set in select2
-        # We only support this if the contest is private for only
-        # 1 organization
-        if self.object.organizations.count() == 1:
-            kwargs['org_pk'] = self.object.organizations.values_list('pk', flat=True)[0]
+        if self.object.organization:
+            kwargs['org_pk'] = self.object.organization.id
 
         kwargs['user'] = self.request.user
         return kwargs
