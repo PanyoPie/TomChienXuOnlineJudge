@@ -10,7 +10,7 @@ Check out its features [here](https://github.com/DMOJ/online-judge#features).
 
 ## Installation
 
-We rewrote install documentation of DMOJ and VNOJ and included some more detailed steps and some FAQs, check it out [here](https://dokku.tunaa.io.vn/docs/category/install-online-judge). 
+We rewrote install documentation of DMOJ and VNOJ and included some more detailed steps and some FAQs, check it out [here](https://dokku.tunaa.io.vn/docs/category/online-judge---installation-guide). 
 
 Almost all installation steps remain the same as the docs, but there are several minor differences, including cloning this repo instead of DMOJ's repo.
 
