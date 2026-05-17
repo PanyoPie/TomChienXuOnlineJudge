@@ -526,14 +526,14 @@ class OrganizationHome(TitleMixin, PublicOrganizationMixin, PostListBase):
            user.has_perm('judge.see_organization_problem') or \
            user.has_perm('judge.edit_all_problem'):
             context['new_problems'] = Problem.objects.filter(
-                is_public=True, is_organization_private=True,
+                is_public=True,
                 organization=self.object) \
-                .order_by('-date', '-id')[:settings.DMOJ_BLOG_NEW_PROBLEM_COUNT]
+                .order_by('-id')[:settings.DMOJ_BLOG_NEW_PROBLEM_COUNT]
 
         see_private_contest = user.has_perm('judge.see_private_contest') or user.has_perm('judge.edit_all_contest')
         if context['is_member'] or see_private_contest:
             new_contests = Contest.objects.filter(
-                is_visible=True, is_organization_private=True,
+                is_visible=True,
                 organization=self.object) \
                 .order_by('-end_time', '-id')
 
@@ -759,7 +759,7 @@ class OrganizationStorageDashboard(LoginRequiredMixin, TitleMixin, AdminOrganiza
         return _('Storage Dashboard - %s') % self.organization.name
 
     def get_queryset(self):
-        queryset = Problem.objects.filter(
+        queryset = Problem.available.filter(
             organization=self.organization,
         ).annotate(
             data_size=Coalesce(F('data_files__zipfile_size'), Value(0)),

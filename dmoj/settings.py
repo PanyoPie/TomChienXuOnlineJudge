@@ -226,6 +226,12 @@ DMOJ_PROBLEM_MAX_MEMORY_LIMIT = 1048576  # kilobytes
 DMOJ_PROBLEM_MIN_PROBLEM_POINTS = 0
 DMOJ_PROBLEM_HOT_PROBLEM_COUNT = 7
 
+# Grace period before a soft-deleted problem is permanently removed
+VNOJ_PROBLEM_DELETION_GRACE_PERIOD = datetime.timedelta(days=7)
+# Maximum time the garbage collection task is allowed to run per invocation
+VNOJ_PROBLEM_GARBAGE_COLLECTOR_TIME_LIMIT = datetime.timedelta(hours=1)
+VNOJ_PROBLEM_GARBAGE_COLLECTOR_CRONTAB_KWARGS = {'minute': 0, 'hour': 0}
+
 DMOJ_PROBLEM_STATEMENT_DISALLOWED_CHARACTERS = {'“', '”', '‘', '’', '−', 'ﬀ', 'ﬁ', 'ﬂ', 'ﬃ', 'ﬄ'}
 DMOJ_RATING_COLORS = True
 DMOJ_EMAIL_THROTTLING = (10, 60)
@@ -786,6 +792,8 @@ SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['first_name', 'last_name']
 IP_BASED_AUTHENTICATION_HEADER = 'REMOTE_ADDR'
 
 MOSS_API_KEY = None
+MOSS_HOST = 'moss.stanford.edu'
+MOSS_PORT = 7690
 
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 

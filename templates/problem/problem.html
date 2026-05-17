@@ -275,6 +275,7 @@
             <div><a href="{{ url('admin:judge_problem_change', problem.id) }}">{{ _('(Admin) Edit problem') }}</a></div>
             <div><a href="{{ url('admin:judge_problem_change', problem.id) }}#translations-group">{{ _('(Admin) Edit translations') }}</a></div>
         {% endif %}
+        <div><a href="{{ url('problem_delete', problem.code) }}?next={{ request.get_full_path()|urlencode }}">{{ _('Delete problem') }}</a></div>
         {% if not problem.is_manually_managed %}
             <div><a href="{{ url('problem_data', problem.code) }}">{{ _('Edit test data') }}</a></div>
         {% endif %}
