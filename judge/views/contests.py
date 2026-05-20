@@ -40,7 +40,7 @@ from judge.contest_format import ICPCContestFormat
 from judge.forms import ContestAnnouncementForm, ContestCloneForm, ContestDownloadDataForm, ContestForm, \
     ProposeContestProblemFormSet
 from judge.models import Contest, ContestAnnouncement, ContestMoss, ContestParticipation, ContestProblem, ContestTag, \
-    Language, Organization, Problem, ProblemClarification, Profile, Submission
+    Language, Organization, Problem, ProblemClarification, Profile, Solution, Submission
 from judge.tasks import on_new_contest, prepare_contest_data, rescore_problem, run_moss
 from judge.utils.celery import redirect_to_task_status, task_status_by_id, task_status_url_by_id
 from judge.utils.cms import parse_csv_ranking
@@ -156,7 +156,7 @@ class ContestList(InfinitePaginationMixin, TitleMixin, ContestListMixin, ListVie
         return context
 
 
-class PrivateContestError(Exception):
+class PrivateContestError(PermissionDenied):
     def __init__(self, name, is_private, is_organization_private, org):
         self.name = name
         self.is_private = is_private
@@ -1434,20 +1434,25 @@ class ContestProblemMakePublic(LoginRequiredMixin, ContestMixin, SingleObjectMix
         if not request.user.is_staff or not contest.is_editable_by(request.user):
             raise PermissionDenied(_('You do not have permission to edit this contest.'))
 
+        now = timezone.now()
         contest_problems = contest.contest_problems.prefetch_related('problem').all()
         for contest_problem in contest_problems:
             problem = contest_problem.problem
-            # this change has 1 implication:
-            # - users only need write permissions for **private** problems
-            # This is not a bug! It improves the UX since a lot of users include
-            # public problems in their contests.
-            if problem.is_public:
-                continue
-            if not problem.is_editable_by(request.user):
-                raise PermissionDenied(_('You do not have permission to edit this problem.'))
-            problem.is_public = True
-            problem.date = timezone.now()
-            problem.save(update_fields=['is_public', 'date'])
-            rescore_problem.delay(problem.id, True)
+            # - users only require write permissions for **private** problems.
+            # This is not a bug! As many users include
+            # public problems in their contests, this allows them to make
+            # other problems public without needing write permissions for everything.
+            is_editable = problem.is_editable_by(request.user)
+
+            if not problem.is_public:
+                if not is_editable:
+                    raise PermissionDenied(_('You do not have permission to edit this problem.'))
+                problem.is_public = True
+                problem.date = now
+                problem.save(update_fields=['is_public', 'date'])
+                rescore_problem.delay(problem.id, True)
+
+            if is_editable:
+                Solution.objects.filter(problem=problem, is_public=False).update(is_public=True, publish_on=now)
 
         return HttpResponseRedirect(reverse('contest_view', args=(contest.key,)))
