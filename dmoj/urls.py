@@ -5,18 +5,15 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.http import Http404, HttpResponsePermanentRedirect
-from django.templatetags.static import static
 from django.urls import include, path, re_path, reverse
-from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_sameorigin
-from django.views.generic import RedirectView
 
 from judge.feed import AtomBlogFeed, AtomCommentFeed, AtomProblemFeed, BlogFeed, CommentFeed, ProblemFeed
 from judge.sitemap import sitemaps
-from judge.views import TitledTemplateView, api, blog, comment, contests, language, license, mailgun, organization, \
-    preview, problem, problem_download, problem_manage, ranked_submission, register, stats, status, submission, tag, \
-    tasks, ticket, two_factor, user, widgets
+from judge.views import TitledTemplateView, api, blog, comment, contests, language, license, mailgun, notification, \
+    organization, preview, problem, problem_download, problem_manage, ranked_submission, register, stats, status, \
+    submission, tag, tasks, ticket, two_factor, user, widgets
 from judge.views.magazine import MagazinePage
 from judge.views.misc_config import MiscConfigEdit
 from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
@@ -203,6 +200,7 @@ urlpatterns = [
 
     path('user', user.UserAboutPage.as_view(), name='user_page'),
     path('edit/profile/', user.edit_profile, name='user_edit_profile'),
+    path('set-theme/', user.set_theme, name='set_theme'),
     path('data/prepare/', user.UserPrepareData.as_view(), name='user_prepare_data'),
     path('data/download/', user.UserDownloadData.as_view(), name='user_download_data'),
     path('user/<str:user>', include([
@@ -302,9 +300,11 @@ urlpatterns = [
         path('/join', organization.JoinOrganization.as_view(), name='join_organization'),
         path('/leave', organization.LeaveOrganization.as_view(), name='leave_organization'),
         path('/edit', organization.EditOrganization.as_view(), name='edit_organization'),
+        path('/quota/add', organization.OrganizationQuotaAdd.as_view(), name='organization_quota_add'),
+        path('/quota/<int:quota_id>/delete', organization.OrganizationQuotaDelete.as_view(),
+             name='organization_quota_delete'),
         path('/kick', organization.KickUserWidgetView.as_view(), name='organization_user_kick'),
-        path('/usage', organization.MonthlyCreditUsageOrganization.as_view(), name='organization_monthly_usage'),
-        path('/storage', organization.OrganizationStorageDashboard.as_view(), name='organization_storage'),
+        path('/usage', organization.OrganizationStorageDashboard.as_view(), name='organization_monthly_usage'),
         path('/problems/', organization.ProblemListOrganization.as_view(), name='problem_list_organization'),
         path('/contests/', organization.ContestListOrganization.as_view(), name='contest_list_organization'),
         path('/submissions/',
@@ -408,6 +408,12 @@ urlpatterns = [
         path('new', ticket.NewIssueTicketView.as_view(), name='new_issue_ticket'),
     ])),
 
+    path('notifications/', include([
+        path('', notification.NotificationList.as_view(), name='notification_list'),
+        path('ajax', notification.NotificationAjax.as_view(), name='notification_ajax'),
+        path('mark_read', notification.NotificationMarkRead.as_view(), name='notification_mark_read'),
+    ])),
+
     path('ticket/<int:pk>', include([
         path('', ticket.TicketView.as_view(), name='ticket'),
         path('/ajax', ticket.TicketMessageDataAjax.as_view(), name='ticket_message_ajax'),
@@ -445,13 +451,6 @@ urlpatterns = [
     path('misc_config/', MiscConfigEdit.as_view(), name='misc_config'),
 ]
 
-favicon_paths = []
-
-static_lazy = lazy(static, str)
-for favicon in favicon_paths:
-    urlpatterns.append(path(favicon, RedirectView.as_view(
-        url=static_lazy('icons/' + favicon),
-    )))
 
 handler404 = 'judge.views.error.error404'
 handler403 = 'judge.views.error.error403'

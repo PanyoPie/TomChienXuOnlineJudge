@@ -124,13 +124,13 @@
                         <div>
                             <a href="{{ url('edit_organization', organization.slug) }}">{{ _('Edit organization') }}</a>
                         </div>
-                        <div>
-                            <a href="{{ url('organization_storage', organization.slug) }}">{{ _('Storage') }}</a>
-                        </div>
                     {% endif %}
                     {% if perms.judge.change_organization %}
                         <div>
                             <a href="{{ url('admin:judge_organization_change', organization.id) }}">{{ _('Admin organization') }}</a>
+                        </div>
+                        <div>
+                            {{ link_users(organization.admins.all()) }}
                         </div>
                     {% endif %}
                 </div>
