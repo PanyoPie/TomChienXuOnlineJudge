@@ -187,7 +187,7 @@ class APIMiddleware(object):
 
 
 class MiscConfigDict(dict):
-    __slots__ = ('language', 'site', 'backing', 'home_page_top')
+    __slots__ = ('language', 'site', 'backing')
 
     def __init__(self, language='', domain=None):
         self.language = language
@@ -227,8 +227,9 @@ class MiscConfigMiddleware:
         domain = get_current_site(request).domain
         request.misc_config = MiscConfigDict(language=request.LANGUAGE_CODE, domain=domain)
 
-        if not request.user.is_authenticated:
-            request.misc_config.home_page_top = getattr(settings, 'TOMCHIENXU_HOME_PAGE_TOP_CONTENT', '')
+        # TomChienXu Note: VNOI made one for the home page top content, this one is not needed for now.
+        # if not request.user.is_authenticated:
+        #     request.misc_config.home_page_top = getattr(settings, 'TOMCHIENXU_HOME_PAGE_TOP_CONTENT', '')
 
         return self.get_response(request)
 
