@@ -54,8 +54,7 @@ VNOJ_ORG_PP_STEP = 0.95
 VNOJ_ORG_PP_ENTRIES = 100
 VNOJ_ORG_PP_SCALE = 1
 
-VNOJ_ENABLE_API = False
-VNOJ_ENABLE_SYNC_API = True  # need to make this true for testing :sad:
+VNOJ_ENABLE_SYNC_API = False
 GLOBAL_API_KEY = 'test-api-key-123'
 
 VNOJ_OFFICIAL_CONTEST_MODE = False
@@ -64,7 +63,6 @@ VNOJ_OFFICIAL_CONTEST_MODE = False
 # Both should be int
 VNOJ_CP_COMMENT = 1   # Each comment vote equals 1 CP
 VNOJ_CP_TICKET = 10   # Each good ticket equals CP
-VNOJ_CP_PROBLEM = 20  # Each suggested problem equal 20 CP
 
 TICKET_AUTOFILL_REPLIES = [
     {'en': 'No comments',
@@ -241,7 +239,6 @@ DISCORD_WEBHOOK = {
     'on_new_ticket': None,
     'on_new_comment': None,
     'on_new_problem': None,
-    'on_new_suggested_problem': None,
     'on_new_tag_problem': None,
     'on_new_tag': None,
     'on_new_blogpost': None,
