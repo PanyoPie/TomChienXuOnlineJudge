@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, URLValidator
 from django.db import models
-from django.db.models import F, Max, Sum
+from django.db.models import Max, Sum
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
@@ -419,8 +419,7 @@ class Profile(models.Model):
         bonus_function = settings.DMOJ_PP_BONUS_FUNCTION
         points = sum(data)
         problems = (
-            public_problems.filter(submission__user=self, submission__result='AC',
-                                   submission__case_points__gte=F('submission__case_total'))
+            public_problems.filter(submission__user=self, submission__result='AC')
             .values('id').distinct().count()
         )
         pp = sum(x * y for x, y in zip(table, data)) + bonus_function(problems)
