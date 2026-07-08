@@ -9,7 +9,8 @@ import pyotp
 import webauthn
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator, URLValidator
 from django.db import models
 from django.db.models import F, Max, Sum
 from django.urls import reverse
@@ -40,6 +41,23 @@ class EncryptedNullCharField(EncryptedCharField):
             return None
         return super(EncryptedNullCharField, self).get_prep_value(value)
 
+url_validator = URLValidator()
+
+def validate_relative_or_absolute(value):
+    if not value:
+        return  # allow blank values
+
+    # Accept relative URLs
+    if value.startswith("/"):
+        return
+
+    # Otherwise it must be a valid absolute URL
+    try:
+        url_validator(value)
+    except ValidationError:
+        raise ValidationError(
+            "Enter a valid absolute URL or a relative path starting with '/'."
+        )
 
 class Organization(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('organization title'))
@@ -232,8 +250,8 @@ class OrganizationMonthlyUsage(models.Model):
 
 class Badge(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('badge name'))
-    mini = models.URLField(verbose_name=_('mini badge URL'), blank=True)
-    full_size = models.URLField(verbose_name=_('full size badge URL'), blank=True)
+    mini = models.CharField(max_length=1000, verbose_name=_('mini badge URL'), blank=True, validators=[validate_relative_or_absolute])
+    full_size = models.CharField(max_length=1000, verbose_name=_('full size badge URL'), blank=True, validators=[validate_relative_or_absolute])
 
     def __str__(self):
         return self.name
