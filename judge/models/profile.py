@@ -50,7 +50,7 @@ def validate_relative_or_absolute(value):
         return  # allow blank values
 
     # Accept relative URLs
-    if value.startswith("/"):
+    if value.startswith('/'):
         return
 
     # Otherwise it must be a valid absolute URL
@@ -58,7 +58,7 @@ def validate_relative_or_absolute(value):
         url_validator(value)
     except ValidationError:
         raise ValidationError(
-            "Enter a valid absolute URL or a relative path starting with '/'."
+            "Enter a valid absolute URL or a relative path starting with '/'.",
         )
 
 
