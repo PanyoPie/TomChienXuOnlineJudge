@@ -152,6 +152,8 @@ class ProblemDataCompiler(object):
                 # TomChienXu: Re-enable Python Interactive Judge
                 if checker_ext not in ['cpp', 'pas', 'java', 'py']:
                     raise ProblemDataError(_('Only C++, Pascal, Java or Python checkers are supported.'))
+                if not case.checker_args:
+                    raise ProblemDataError(_('How did you corrupt the checker arguments?'))
 
             if case.checker_args:
                 return {
