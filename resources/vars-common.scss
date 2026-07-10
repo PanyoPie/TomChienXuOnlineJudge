@@ -9,4 +9,6 @@ $table_header_rounding: 6px;
 $monospace-fonts: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 
 $highlight_blue: #6f4cde;
-$tomchienxu: #000B58;
+$tomchienxu_light: #000B58;
+$tomchienxu_dark: #B8C6FF;
+$tomchienxu: $tomchienxu_light;
