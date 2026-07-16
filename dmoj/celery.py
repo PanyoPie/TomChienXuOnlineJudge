@@ -1,12 +1,12 @@
-import os
 import logging
+import os
 import socket
 
 from celery import Celery
 from celery.schedules import crontab
 from celery.signals import task_failure
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dmoj.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dmoj.settings')
 
 app = Celery('dmoj')
 

@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, RegexValidator
 from django.db.models import Q
-from django.forms import BooleanField, CharField, ChoiceField, DateTimeField, DateInput, Form, ModelForm, \
+from django.forms import BooleanField, CharField, ChoiceField, DateInput, DateTimeField, Form, ModelForm, \
     MultipleChoiceField, formset_factory, inlineformset_factory
 from django.forms.widgets import DateTimeInput
 from django.template.defaultfilters import filesizeformat
@@ -599,7 +599,7 @@ class UserBanForm(Form):
             },
             format='%Y-%m-%dT%H:%M:%S',
         ),
-        help_text="Leave empty for permanent ban.",
+        help_text=_('Leave empty for permanent ban.'),
     )
 
 

@@ -24,6 +24,9 @@
     <link rel="icon" type="image/png" href="{{ static('icons/android-chrome-192x192.png') }}" sizes="192x192">
     <link rel="icon" type="image/png" href="{{ static('icons/favicon-96x96.png') }}" sizes="96x96">
     <link rel="icon" type="image/png" href="{{ static('icons/favicon-16x16.png') }}" sizes="16x16">
+    {% with favicon_url=misc_config.site_favicon|default(static('icons/icon.png'), true) %}
+        <link rel="icon" type="image/png" href="{{ favicon_url }}">
+    {% endwith %}
     <meta name="msapplication-TileColor" content="#231F20">
     <meta name="msapplication-TileImage" content="{{ static('icons/mstile-144x144.png') }}">
 

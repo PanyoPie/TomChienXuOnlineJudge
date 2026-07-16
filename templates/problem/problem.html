@@ -157,8 +157,7 @@
     {% if request.user.is_authenticated and request.in_contest and submission_limit %}
         {% if submissions_left > 0 %}
             <a href="{{ url('problem_submit', problem.code) }}" class="unselectable button full">
-                <!-- {{ _('Submit solution') }} -->
-                <b>SUBMIT SOLUTION</b>
+                <b>{{ _('Submit solution') | upper }}</b>
             </a>
             <div class="submissions-left">
                 {% trans trimmed counter=submissions_left %}
@@ -169,15 +168,13 @@
             </div>
         {% else %}
             <a class="unselectable button full disabled">
-                <!-- {{ _('Submit solution') }} -->
-                <b>NO SUBMISSION LEFT</b>
+                <b>{{ _('No submissions left') | upper }}</b>
             </a>
             <div class="no-submissions-left submissions-left">{{ _('0 submissions left') }}</div>
         {% endif %}
     {% else %}
         <a href="{{ url('problem_submit', problem.code) }}" class="unselectable button full">
-            <!-- {{ _('Submit solution') }} -->
-            <b>SUBMIT SOLUTION</b>
+            <b>{{ _('Submit solution') | upper }}</b>
         </a>
     {% endif %}
 

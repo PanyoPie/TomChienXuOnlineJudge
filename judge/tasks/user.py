@@ -9,12 +9,12 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from judge.models import Comment, Problem, Submission, Profile
+from judge.models import Comment, Problem, Profile, Submission
 from judge.utils.celery import Progress
 from judge.utils.raw_sql import use_straight_join
 from judge.utils.unicode import utf8bytes
 
-__all__ = ('prepare_user_data', 'unban_expired_users',)
+__all__ = ('prepare_user_data', 'unban_expired_users')
 rewildcard = re.compile(r'\*+')
 
 
@@ -48,7 +48,7 @@ def apply_comment_filter(queryset, options):
 def unban_expired_users():
     profiles = (
         Profile.objects
-        .select_related("user")
+        .select_related('user')
         .filter(
             user__is_active=False,
             ban_expires_at__isnull=False,

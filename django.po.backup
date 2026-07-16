@@ -1038,6 +1038,7 @@ msgid "This account has been banned. Reason: %s"
 msgstr "Tài khoản này đã bị cấm vì lý do: %s"
 
 #: judge/forms.py:602
+#, fuzzy
 #| msgid "Leave blank to ban permanently."
 msgid "Leave empty for permanent ban."
 msgstr "Để trống để thi hành lệnh cấm vĩnh viễn."
@@ -7585,6 +7586,7 @@ msgstr[0] "Còn %(counter)s lần nộp"
 msgstr[1] "Còn %(counter)s lần nộp"
 
 #: templates/problem/problem.html:171
+#, fuzzy
 #| msgid "0 submissions left"
 msgid "No submissions left"
 msgstr "Không còn lần nộp"
