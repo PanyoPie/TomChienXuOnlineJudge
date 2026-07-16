@@ -1,9 +1,12 @@
+import os
 import logging
 import socket
 
 from celery import Celery
 from celery.schedules import crontab
 from celery.signals import task_failure
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dmoj.settings")
 
 app = Celery('dmoj')
 
@@ -42,6 +45,13 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=0, hour=0, day_of_month=1),
         'options': {
             'expires': 60 * 60 * 24,
+        },
+    },
+    'unban-expired-users': {
+        'task': 'judge.tasks.user.unban_expired_users',
+        'schedule': 60,
+        'options': {
+            'expires': 60,
         },
     },
 }

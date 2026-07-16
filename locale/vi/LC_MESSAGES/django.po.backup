@@ -1028,7 +1028,7 @@ msgid "Password"
 msgstr "Mật khẩu"
 
 #: judge/forms.py:578
-#, python-format
+#, fuzzy, python-format
 #| msgid "This account has been banned. Reason: %s"
 msgid "This account has been banned until %(date)s. Reason: %(reason)s"
 msgstr "Tài khoản này đã bị cấm đến %(date)s vì lý do: %(reason)s"
@@ -2564,6 +2564,7 @@ msgid "Output Only"
 msgstr "Chỉ output"
 
 #: judge/models/problem_data.py:38
+#, fuzzy
 #| msgid "Custom Range"
 msgid "Custom Grader"
 msgstr "Grader thủ công"
@@ -3753,11 +3754,13 @@ msgid "How did you corrupt the custom checker path?"
 msgstr "Phá kiểu gì mà mất tiêu checker rồi?"
 
 #: judge/utils/problem_data.py:154
+#, fuzzy
 #| msgid "Only C++, Pascal, or Java checkers are supported."
 msgid "Only C++, Pascal, Java or Python checkers are supported."
 msgstr "Chỉ hỗ trợ checker viết bằng C++, Pascal, Java hoặc Python."
 
 #: judge/utils/problem_data.py:156
+#, fuzzy
 #| msgid "How did you corrupt the custom checker path?"
 msgid "How did you corrupt the checker arguments?"
 msgstr "Phá kiểu gì mà mất tiêu checker rồi?"
@@ -3775,6 +3778,7 @@ msgid "Input/Output file must be a string."
 msgstr "Tên file input/output phải là xâu."
 
 #: judge/utils/problem_data.py:203
+#, fuzzy
 #| msgid "Only accept `.cpp` interactor"
 msgid "Only accept `.cpp` and `.py` interactor"
 msgstr "Chỉ chấp nhận `.cpp` và `.py` interactor"
@@ -3792,6 +3796,7 @@ msgid "Only accept `.h` header"
 msgstr "Chỉ chấp nhận file header `.h`"
 
 #: judge/utils/problem_data.py:243
+#, fuzzy
 #| msgid "Only accept `.h` header"
 msgid "Only accept `.py` custom judge"
 msgstr "Chỉ chấp nhận file header `.py`"
@@ -5132,6 +5137,7 @@ msgid "Ban {0}"
 msgstr "Cấm {0}"
 
 #: judge/views/user.py:243
+#, fuzzy
 #| msgid "Organization slugs must begin with a letter."
 msgid "Ban expiration must be in the future."
 msgstr "Thời hạn cấm phải là một thời điểm trong tương lai"
@@ -5522,10 +5528,10 @@ msgid "This site works best with JavaScript enabled."
 msgstr "Trang web này hoạt động tốt nhất khi JavaScript được cho phép."
 
 #: templates/base.html:483
-#, python-format
+#, fuzzy, python-format
 #| msgid "proudly powered by %(dmoj)s"
 msgid "Proudly powered by %(dmoj)s and %(vnoj)s"
-msgstr "Dựa trên nền tảng %(dmoj)s và %(vnoj)s"
+msgstr "dựa trên nền tảng %(dmoj)s và  %(vnoj)s"
 
 #: templates/base.html:485
 #, python-format
@@ -6860,6 +6866,7 @@ msgid "New contests"
 msgstr "Kỳ thi mới"
 
 #: templates/organization/list-tabs.html:8
+#, fuzzy
 #| msgid "Show more"
 msgid "Show all orgs"
 msgstr "Xem tất cả các tổ chức"
@@ -6869,6 +6876,7 @@ msgid "Name"
 msgstr "Tên"
 
 #: templates/organization/list.html:34
+#, fuzzy
 #| msgid "short name"
 msgid "Short name"
 msgstr "Tên viết tắt"
@@ -6878,6 +6886,7 @@ msgid "Slug"
 msgstr "Slug (ID)"
 
 #: templates/organization/list.html:36
+#, fuzzy
 #| msgid "Admin"
 msgid "Admins"
 msgstr "Quản trị"
@@ -6887,6 +6896,7 @@ msgid "Your organizations"
 msgstr "Tổ chức của bạn"
 
 #: templates/organization/list.html:72
+#, fuzzy
 #| msgid "Search organizations"
 msgid "Search organization..."
 msgstr "Tìm tổ chức..."
@@ -7617,16 +7627,19 @@ msgid "Edit problem"
 msgstr "Sửa đề bài"
 
 #: templates/problem/problem.html:213
+#, fuzzy
 #| msgid "languages"
 msgid "Edit language limits"
 msgstr "Sửa giới hạn ngôn ngữ"
 
 #: templates/problem/problem.html:215
+#, fuzzy
 #| msgid "Edit problem"
 msgid "(Admin) Edit problem"
 msgstr "(Admin) Sửa đề bài"
 
 #: templates/problem/problem.html:216
+#, fuzzy
 #| msgid "Administer organizations"
 msgid "(Admin) Edit translations"
 msgstr "(Admin) Sửa bản dịch"
@@ -7652,6 +7665,7 @@ msgid "Manage submissions"
 msgstr "Quản lí submissions"
 
 #: templates/problem/problem.html:250
+#, fuzzy
 #| msgid "ID"
 msgid "ID:"
 msgstr "ID:"
@@ -8820,16 +8834,19 @@ msgid "Create New"
 msgstr "Tạo mới"
 
 #: templates/user/ban.html:49
+#, fuzzy
 #| msgid " Reason: "
 msgid "Ban Reason:"
 msgstr "Lý do cấm:"
 
 #: templates/user/ban.html:53
+#, fuzzy
 #| msgid "Expires"
 msgid "Ban Expires At:"
 msgstr "Lệnh cấm sẽ hết hạn lúc:"
 
 #: templates/user/ban.html:55
+#, fuzzy
 #| msgid "or leave blank for no limit."
 msgid "Leave blank to ban permanently."
 msgstr "Để trống để thi hành lệnh cấm vĩnh viễn."
@@ -8973,6 +8990,7 @@ msgid "Two-factor Authentication is disabled:"
 msgstr "Xác thực 2 yếu tố đã tắt:"
 
 #: templates/user/edit-profile.html:420
+#, fuzzy
 #| msgid "Enable"
 msgid "Enable 2FA"
 msgstr "Bật"

@@ -292,6 +292,8 @@ class Profile(models.Model):
                                       default=False)
     ban_reason = models.TextField(null=True, blank=True,
                                   help_text=_('Show to banned user in login page.'))
+    ban_expires_at = models.DateTimeField(null=True, blank=True,
+                                          help_text=_('If set, the ban will be automatically lifted after this time.'))
     allow_tagging = models.BooleanField(verbose_name=_('Allow tagging'),
                                         help_text=_('User will be allowed to tag problems.'),
                                         default=True)
@@ -527,11 +529,24 @@ class Profile(models.Model):
 
     ban_user.alters_data = True
 
+    def temporarily_ban_user(self, reason, expires_at):
+        self.ban_reason = reason
+        self.ban_expires_at = expires_at
+        self.display_rank = 'banned'
+        self.is_unlisted = True
+        self.save(update_fields=['ban_reason', 'ban_expires_at', 'display_rank', 'is_unlisted'])
+
+        self.user.is_active = False
+        self.user.save(update_fields=['is_active'])
+
+    temporarily_ban_user.alters_data = True
+
     def unban_user(self):
         self.ban_reason = None
+        self.ban_expires_at = None
         self.display_rank = Profile._meta.get_field('display_rank').get_default()
         self.is_unlisted = False
-        self.save(update_fields=['ban_reason', 'display_rank', 'is_unlisted'])
+        self.save(update_fields=['ban_reason', 'ban_expires_at', 'display_rank', 'is_unlisted',])
 
         self.user.is_active = True
         self.user.save(update_fields=['is_active'])

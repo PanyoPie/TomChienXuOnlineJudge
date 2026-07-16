@@ -1,9 +1,67 @@
 {% extends "base.html" %}
 
+{% block media %}
+    <style>
+        #ban-panel {
+            position: relative;
+            margin: 5em auto auto -10em;
+            top: 40%;
+            left: 50%;
+        }
+
+        #ban-reason-container, #ban-expires-container {
+            margin: 0.5em 0;
+        }
+
+        #id_ban_reason, #id_ban_expires_at {
+            width: 100%;
+        }
+
+        .form-fullwidth {
+            width: 90%;
+        }
+
+        @media (min-width: 768px) {
+            .form-fullwidth {
+                width: 30%;
+            }
+        }
+
+        ul.errorlist {
+            list-style-type: none;
+            padding-left: 0;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+    {% if form.ban_reason and form.ban_expires_at %}
+    <form action="" method="post" class="form-area form-fullwidth">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div id="form-errors">
+            {{ form.ban_reason.errors }}
+            {{ form.ban_expires_at.errors }}
+        </div>
+        {% endif %}
+
+        <div><label class="inline-header grayed" for="ban_reason"><b>*{{ _('Ban Reason:') }}</b></label></div>
+        <div id="ban-reason-container"><span class="fullwidth">{{ form.ban_reason }}</span></div>
+
+        <div>
+            <label class="inline-header grayed" for="ban_expires_at">{{ _('Ban Expires At:') }}</label>
+            <br>
+            <small><i class="fa fa-info-circle" aria-hidden="true"></i> {{ _('Leave blank to ban permanently.') }}</small>
+        </div>
+        <div id="ban-expires-container"><span class="fullwidth">{{ form.ban_expires_at }}</span></div>
+        <hr>
+        <input type="submit" value="Submit" class="fullwidth">
+    </form>
+    {% else %}
     <form action="" method="post">
         {% csrf_token %}
-        {{ form }}
         <input type="submit" value="Submit">
     </form>
+    {% endif %}
 {% endblock %}

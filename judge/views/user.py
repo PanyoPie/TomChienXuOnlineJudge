@@ -235,7 +235,18 @@ class UserBan(UserMixin, TitleMixin, SingleObjectFormView):
     def form_valid(self, form):
         user = self.object
         with revisions.create_revision(atomic=True):
-            user.ban_user(form.cleaned_data['ban_reason'])
+            expires_at = form.cleaned_data['ban_expires_at']
+            reason = form.cleaned_data['ban_reason']
+
+            if expires_at is not None:
+                if expires_at <= timezone.now():
+                    form.add_error('ban_expires_at', _('Ban expiration must be in the future.'))
+                    return self.form_invalid(form)
+                else:
+                    user.temporarily_ban_user(reason=reason, expires_at=expires_at)
+            else:
+                user.ban_user(reason=reason)
+
             revisions.set_user(self.request.user)
             revisions.set_comment(_('Banned by %s') % self.request.user)
 

@@ -41,6 +41,7 @@ tmp.sh
 *.sql
 fc_*
 local_urls.py
+celerybeat-schedule
 celerybeat-schedule.*
 resources/blog-modern.css
 resources/blog-post.css
