@@ -49,7 +49,7 @@ app.conf.beat_schedule = {
     },
     'unban-expired-users': {
         'task': 'judge.tasks.user.unban_expired_users',
-        'schedule': 60,
+        'schedule': crontab(minute='*'),
         'options': {
             'expires': 60,
         },
