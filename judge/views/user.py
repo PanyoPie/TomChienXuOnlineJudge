@@ -36,6 +36,7 @@ from judge.forms import CustomAuthenticationForm, ProfileForm, UserBanForm, User
     newsletter_id
 from judge.models import BlogPost, Organization, Profile, Submission
 from judge.models import Comment
+from judge.models.notification import make_notification
 from judge.performance_points import get_pp_breakdown
 from judge.ratings import rating_class, rating_progress
 from judge.tasks import prepare_user_data
@@ -244,8 +245,20 @@ class UserBan(UserMixin, TitleMixin, SingleObjectFormView):
                     return self.form_invalid(form)
                 else:
                     user.temporarily_ban_user(reason=reason, expires_at=expires_at)
+                    make_notification(
+                        [user.id],
+                        _('Temporarily banned!'),
+                        _('You have been temporarily banned from the site. \
+                        Reason: {0}. Ban expires at {1}.')
+                        .format(reason, date_format(expires_at, use_l10n=True)),
+                        popup=True,
+                    )
             else:
                 user.ban_user(reason=reason)
+                make_notification([user.id], _('Banned!'),
+                                  _('You have been banned from the site. \
+                                    Reason: {0}').format(reason),
+                                  popup=True)
 
             revisions.set_user(self.request.user)
             revisions.set_comment(_('Banned by %s') % self.request.user)
@@ -269,6 +282,8 @@ class UserUnban(UserBan):
         user = self.object
         with revisions.create_revision(atomic=True):
             user.unban_user()
+            make_notification([user.id], _('Unbanned!'),
+                              _('You have been unbanned from the site.'))
             revisions.set_user(self.request.user)
             revisions.set_comment(_('Unbanned by %s') % self.request.user)
 

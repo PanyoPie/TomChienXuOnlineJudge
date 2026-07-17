@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from judge.models import Comment, Problem, Profile, Submission
+from judge.models.notification import make_notification
 from judge.utils.celery import Progress
 from judge.utils.raw_sql import use_straight_join
 from judge.utils.unicode import utf8bytes
@@ -56,6 +57,11 @@ def unban_expired_users():
         )
     )
 
+    make_notification(profiles,
+                      _('Unbanned!'),
+                      _('Your ban punishment has expired. \
+                        Please follow the rules and avoid being banned again.'),
+                      popup=True)
     for profile in profiles:
         profile.unban_user()
 

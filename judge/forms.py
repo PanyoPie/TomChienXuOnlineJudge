@@ -590,7 +590,7 @@ class CustomAuthenticationForm(AuthenticationForm, SocialAuthMixin):
 
 
 class UserBanForm(Form):
-    ban_reason = CharField()
+    ban_reason = CharField(widget=forms.Textarea)
     ban_expires_at = DateTimeField(
         required=False,
         widget=forms.DateTimeInput(
