@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dmoj\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-16 20:11+0000\n"
+"POT-Creation-Date: 2026-07-17 04:03+0000\n"
 "PO-Revision-Date: 2020-08-23 18:59\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
@@ -17,27 +17,27 @@ msgstr ""
 "X-Crowdin-File: django.po\n"
 "X-Crowdin-File-ID: 10\n"
 
-#: dmoj/local_settings.py:399 dmoj/settings.py:97
+#: dmoj/settings.py:97
 msgid "Normal User"
 msgstr "Người dùng thông thường"
 
-#: dmoj/local_settings.py:400 dmoj/settings.py:98
+#: dmoj/settings.py:98
 msgid "Problem Setter"
 msgstr "Người ra đề"
 
-#: dmoj/local_settings.py:401 dmoj/settings.py:99
+#: dmoj/settings.py:99
 msgid "Bedao Team"
 msgstr "Đội Bedao"
 
-#: dmoj/local_settings.py:402 dmoj/settings.py:100
+#: dmoj/settings.py:100
 msgid "Staff"
 msgstr "Nhân viên"
 
-#: dmoj/local_settings.py:403 dmoj/settings.py:101
+#: dmoj/settings.py:101
 msgid "Banned User"
 msgstr "Người dùng bị cấm"
 
-#: dmoj/local_settings.py:404 dmoj/settings.py:102 templates/base.html:401
+#: dmoj/settings.py:102 templates/base.html:404
 #: templates/comments/list.html:102 templates/contest/contest-list-tabs.html:34
 #: templates/problem/problem-list-tabs.html:9
 #: templates/submission/info-base.html:15
@@ -47,37 +47,9 @@ msgstr "Người dùng bị cấm"
 msgid "Admin"
 msgstr "Quản trị"
 
-#: dmoj/local_settings.py:405 dmoj/settings.py:103
+#: dmoj/settings.py:103
 msgid "Teacher"
 msgstr "Giáo viên"
-
-#: dmoj/local_settings.py:406
-msgid "Đại Bàng Tung Cánh"
-msgstr "Đại Bàng Tung Cánh"
-
-#: dmoj/local_settings.py:407
-msgid "Vjppro Gamer"
-msgstr "Vjppro Gamer"
-
-#: dmoj/local_settings.py:408
-msgid "Ắc wỷ 😈🗣️🔥"
-msgstr "Ắc wỷ 😈🗣️🔥"
-
-#: dmoj/local_settings.py:409
-msgid "Ăn chay viết kode"
-msgstr "Ăn chay viết kode"
-
-#: dmoj/local_settings.py:410
-msgid "It's your birthday 🍰🎂"
-msgstr "It's your birthday 🍰🎂"
-
-#: dmoj/local_settings.py:411
-msgid "Adu Nhì VOI!!! Orz"
-msgstr "Adu Nhì VOI!!! Orz"
-
-#: dmoj/local_settings.py:412
-msgid "Shitty boom boom skibiadi"
-msgstr "Shitty boom boom skibiadi"
 
 #: dmoj/settings.py:625
 msgid "English"
@@ -115,7 +87,7 @@ msgstr "Đặt lại mật khẩu thành công"
 msgid "Password reset sent"
 msgstr "Đã gửi email đặt lại mật khẩu"
 
-#: dmoj/urls.py:104 templates/base.html:288 templates/organization/tabs.html:15
+#: dmoj/urls.py:104 templates/base.html:291 templates/organization/tabs.html:15
 msgid "Home"
 msgstr "Trang chủ"
 
@@ -176,7 +148,7 @@ msgstr "Chấm lại"
 msgid "Resend announcement"
 msgstr "Gửi lại thông báo"
 
-#: judge/admin/contest.py:151 templates/base.html:332
+#: judge/admin/contest.py:151 templates/base.html:335
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -275,7 +247,7 @@ msgstr[0] "%d lượt tham gia đã được tính lại."
 msgid "username"
 msgstr "tên người dùng"
 
-#: judge/admin/contest.py:431 templates/base.html:442
+#: judge/admin/contest.py:431 templates/base.html:445
 msgid "virtual"
 msgstr "ảo"
 
@@ -361,7 +333,7 @@ msgstr "Điểm"
 msgid "Limits"
 msgstr "Giới hạn"
 
-#: judge/admin/problem.py:134 templates/base.html:348
+#: judge/admin/problem.py:134 templates/base.html:351
 #: templates/problem/editor.html:120 templates/problem/submission-diff.html:114
 #: templates/submission/list.html:336
 msgid "Language"
@@ -762,7 +734,7 @@ msgstr "Mật khẩu này chỉ toàn các số."
 msgid "Your password can't be entirely numeric."
 msgstr "Mật khẩu không được hoàn toàn bằng số."
 
-#: judge/custom_translations.py:24 templates/base.html:317
+#: judge/custom_translations.py:24 templates/base.html:320
 msgid "PRoblems"
 msgstr "Danh sách bài"
 
@@ -1038,7 +1010,6 @@ msgid "This account has been banned. Reason: %s"
 msgstr "Tài khoản này đã bị cấm vì lý do: %s"
 
 #: judge/forms.py:602
-#| msgid "Leave blank to ban permanently."
 msgid "Leave empty for permanent ban."
 msgstr "Để trống để thi hành lệnh cấm vĩnh viễn."
 
@@ -1129,6 +1100,16 @@ msgstr ""
 #: templates/submission/info-base.html:6
 msgid "N j, Y, g:i a"
 msgstr "j, M, Y, G:i"
+
+#: judge/jinja2/datetime.py:31 templates/ticket/action.html:17
+#, python-brace-format
+msgid "{time}"
+msgstr "{time}"
+
+#: judge/jinja2/datetime.py:32 templates/blog/modern-list.html:91
+#, python-brace-format
+msgid "on {time}"
+msgstr "vào lúc {time}"
 
 #: judge/jinja2/filesize.py:33
 #, python-format
@@ -3897,11 +3878,6 @@ msgstr "Bạn phải giải ít nhất %d bài trước khi có thể bỏ phi�
 msgid "Blog post not found."
 msgstr "Không tìm thấy blog."
 
-#: judge/views/blog.py:87
-#, python-brace-format
-msgid "Something wrong has occurred dev guys :( | {error}"
-msgstr "Có gì đó sai sai mấy anh dev ơi! :( | {error}"
-
 #: judge/views/blog.py:105 judge/views/comment.py:75
 msgid "You cannot vote twice."
 msgstr "Bạn không thể bình chọn hai lần."
@@ -3976,7 +3952,7 @@ msgstr "Không có kỳ thi nào"
 msgid "Could not find a contest with the key \"%s\"."
 msgstr "Không thể tìm thấy kỳ thi với khóa \"%s\"."
 
-#: judge/views/contests.py:100 templates/base.html:319
+#: judge/views/contests.py:100 templates/base.html:322
 msgid "Contests"
 msgstr "Các kỳ thi"
 
@@ -4322,7 +4298,7 @@ msgstr "Mô tả bài tập mẫu được điền sẵn khi tạo bài mới."
 msgid "Site settings"
 msgstr "Cài đặt trang web"
 
-#: judge/views/notification.py:43 templates/base.html:372
+#: judge/views/notification.py:43 templates/base.html:375
 #: templates/misc_config/edit.html:97
 msgid "Notifications"
 msgstr "Thông báo"
@@ -5171,7 +5147,7 @@ msgid "Updated on site"
 msgstr "Cập Nhật trên trang web"
 
 #: judge/views/user.py:537 templates/admin/auth/user/change_form.html:14
-#: templates/admin/auth/user/change_form.html:17 templates/base.html:403
+#: templates/admin/auth/user/change_form.html:17 templates/base.html:406
 #: templates/user/user-tabs.html:32
 msgid "Edit profile"
 msgstr "Chỉnh sửa hồ sơ"
@@ -5436,95 +5412,95 @@ msgstr "Xem các bài nộp"
 msgid "Edit user"
 msgstr "Cập nhật người dùng"
 
-#: templates/base.html:150 templates/blog/modern-list.html:155
+#: templates/base.html:153 templates/blog/modern-list.html:155
 #: templates/urlshortener/list.html:67
 msgid "View"
 msgstr "Xem"
 
-#: templates/base.html:151
+#: templates/base.html:154
 msgid "Close"
 msgstr "Đóng"
 
-#: templates/base.html:152 templates/base.html:383
+#: templates/base.html:155 templates/base.html:386
 msgid "No notifications."
 msgstr "Không có thông báo nào."
 
-#: templates/base.html:318 templates/contest/contest-tabs.html:18
+#: templates/base.html:321 templates/contest/contest-tabs.html:18
 #: templates/contest/prepare-data.html:97 templates/organization/tabs.html:19
 #: templates/user/prepare-data.html:104
 msgid "Submissions"
 msgstr "Các bài nộp"
 
-#: templates/base.html:320 templates/contest/list.html:198
+#: templates/base.html:323 templates/contest/list.html:198
 #: templates/contest/list.html:238 templates/contest/list.html:328
 #: templates/organization/tabs.html:16
 msgid "Users"
 msgstr "Thành viên"
 
-#: templates/base.html:339
+#: templates/base.html:342
 msgid "Theme"
 msgstr "Giao diện"
 
-#: templates/base.html:365
+#: templates/base.html:368
 msgid "Report issue"
 msgstr "Báo cáo vấn đề"
 
-#: templates/base.html:378 templates/notification/list.html:55
+#: templates/base.html:381 templates/notification/list.html:55
 msgid "Unread"
 msgstr "Chưa đọc"
 
-#: templates/base.html:379
+#: templates/base.html:382
 msgid "Mark all read"
 msgstr "Đánh dấu tất cả đã đọc"
 
-#: templates/base.html:386
+#: templates/base.html:389
 msgid "See all notifications"
 msgstr "Xem tất cả thông báo"
 
-#: templates/base.html:396
+#: templates/base.html:399
 #, python-format
 msgid "Hello, %(username)s."
 msgstr "Xin chào, %(username)s."
 
-#: templates/base.html:405
+#: templates/base.html:408
 msgid "Stop impersonating"
 msgstr "Ngừng mạo danh"
 
-#: templates/base.html:410
+#: templates/base.html:413
 msgid "Log out"
 msgstr "Đăng xuất"
 
-#: templates/base.html:419
+#: templates/base.html:422
 #: templates/registration/password_reset_complete.html:4
 msgid "Log in"
 msgstr "Đăng nhập"
 
-#: templates/base.html:421 templates/registration/registration_form.html:209
+#: templates/base.html:424 templates/registration/registration_form.html:209
 msgid "or"
 msgstr "hoặc"
 
-#: templates/base.html:422
+#: templates/base.html:425
 msgid "Sign up"
 msgstr "Đăng ký"
 
-#: templates/base.html:436
+#: templates/base.html:439
 msgid "spectating"
 msgstr "spectating"
 
-#: templates/base.html:447
+#: templates/base.html:450
 msgid "Go to Rankings"
 msgstr "Tới bảng xếp hạng"
 
-#: templates/base.html:454
+#: templates/base.html:457
 msgid "This site works best with JavaScript enabled."
 msgstr "Trang web này hoạt động tốt nhất khi JavaScript được cho phép."
 
-#: templates/base.html:483
+#: templates/base.html:486
 #, python-format
 msgid "Proudly powered by %(dmoj)s and %(vnoj)s"
 msgstr "Dựa trên nền tảng %(dmoj)s và %(vnoj)s"
 
-#: templates/base.html:485
+#: templates/base.html:488
 #, python-format
 msgid "Hosted and maintained by %(Tunaa)s and %(Paimon)s, with 💖"
 msgstr "Được vận hành và duy trì bởi %(Tunaa)s và %(Paimon)s, bằng cả 💖"
@@ -5693,11 +5669,6 @@ msgstr "Viết"
 #: templates/blog/modern-list.html:70
 msgid "Manage"
 msgstr "Quản lý"
-
-#: templates/blog/modern-list.html:91
-#, python-brace-format
-msgid "on {time}"
-msgstr "vào lúc {time}"
 
 #: templates/blog/modern-list.html:138 templates/ticket/ticket.html:353
 msgid "Upvote"
@@ -6356,7 +6327,7 @@ msgstr "riêng tư"
 
 #: templates/contest/list.html:95
 msgid "rated"
-msgstr "đã đánh giá"
+msgstr "rated"
 
 #: templates/contest/list.html:136
 #, python-format
@@ -7214,8 +7185,8 @@ msgstr "Quá nhiều testcase"
 #, python-brace-format
 msgid "Number of testcases must not exceed ${window.testcase_limit}"
 msgstr ""
-"Quá nhiều testcase, số lượng testcase không được vượt quá ${window."
-"testcase_limit}"
+"Quá nhiều testcase, số lượng testcase không được vượt quá $"
+"{window.testcase_limit}"
 
 #: templates/problem/data.html:474 templates/problem/data.html:487
 msgid "Files are not in the same format!"
@@ -7585,7 +7556,6 @@ msgstr[0] "Còn %(counter)s lần nộp"
 msgstr[1] "Còn %(counter)s lần nộp"
 
 #: templates/problem/problem.html:171
-#| msgid "0 submissions left"
 msgid "No submissions left"
 msgstr "Không còn lần nộp"
 
@@ -7819,8 +7789,8 @@ msgstr "Nhấn để chọn file hoặc kéo thả file vào đây"
 msgid ""
 "`Only accept \"${file_ext}\". Maximum file size is ${file_size_limit}MB.`"
 msgstr ""
-"`Chỉ chấp nhận file có đuôi \"${file_ext}\". Độ lớn tối đa của file là "
-"${file_size_limit}MB.`"
+"`Chỉ chấp nhận file có đuôi \"${file_ext}\". Độ lớn tối đa của file là $"
+"{file_size_limit}MB.`"
 
 #: templates/problem/submit-js.html:241
 msgid "File name"
@@ -8638,11 +8608,6 @@ msgstr "đã đóng ticket này"
 msgid "reopened this"
 msgstr "đã mở lại ticket này"
 
-#: templates/ticket/action.html:17
-#, python-brace-format
-msgid "{time}"
-msgstr "{time}"
-
 #: templates/ticket/list.html:69 templates/ticket/ticket.html:117
 msgid "Reopened: "
 msgstr "Đã mở lại: "
@@ -9214,6 +9179,31 @@ msgstr "Không tìm thấy URL rút gọn."
 #: urlshortener/views.py:97
 msgid "This shortened URL is not active."
 msgstr "URL rút gọn này không hoạt động."
+
+#~ msgid "Đại Bàng Tung Cánh"
+#~ msgstr "Đại Bàng Tung Cánh"
+
+#~ msgid "Vjppro Gamer"
+#~ msgstr "Vjppro Gamer"
+
+#~ msgid "Ắc wỷ 😈🗣️🔥"
+#~ msgstr "Ắc wỷ 😈🗣️🔥"
+
+#~ msgid "Ăn chay viết kode"
+#~ msgstr "Ăn chay viết kode"
+
+#~ msgid "It's your birthday 🍰🎂"
+#~ msgstr "It's your birthday 🍰🎂"
+
+#~ msgid "Adu Nhì VOI!!! Orz"
+#~ msgstr "Adu Nhì VOI!!! Orz"
+
+#~ msgid "Shitty boom boom skibiadi"
+#~ msgstr "Shitty boom boom skibiadi"
+
+#, python-brace-format
+#~ msgid "Something wrong has occurred dev guys :( | {error}"
+#~ msgstr "Có gì đó sai sai mấy anh dev ơi! :( | {error}"
 
 #~ msgid "You cannot vote your own blog"
 #~ msgstr "Bạn không thể tự bỏ phiếu blog của mình."
