@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+    {{ _('Banners') }}
+{% endblock %}
+
+{% set title = _("Banners") %}
+
+{% block body %}
+    <div class="banner-grid">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-preview">
+                    <table class="banner-preview-table">
+                        <tr>
+                            <td class="user-name">
+                                <div>
+                                    <div style="float:left">
+                                        <span class="rating {{ profile.rating_css_class_name }} {{ profile.active_nameplate.class_name }}">
+                                            <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                                                {{ request.user.username }}
+                                            </a>
+                                        </span>
+                                        <div class="personal-info">
+                                            <span>{{ request.user.first_name }}</span>
+                                        </div>
+                                    </div>
+                                    <div style="float:right">
+                                        <div class="personal-info" style="text-align: right;">
+                                            <b><em>TomChienXu Organization</em></b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    <h3 class="card-title">{{ _('No Banners') }}</h3>
+
+                    <form action="{{ url('user_banner_clear') }}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="card-btn">
+                            {% if not profile.active_banner %}
+                                {{ _('Equipped') }}
+                            {% else %}
+                                {{ _('Equip') }}
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for banner in banners %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-preview">
+                        <table class="banner-preview-table">
+                            <tr>
+                                <td class="user-name">
+                                    <div>
+                                        <div style="float:left">
+                                            <span class="rating {{ profile.rating_css_class_name }} {{ profile.active_nameplate.class_name }} banner-{{ banner.class_name }}">
+                                                <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                                                    {{ request.user.username }}
+                                                </a>
+                                            </span>
+                                            <div class="personal-info">
+                                                <span>{{ request.user.first_name }}</span>
+                                            </div>
+                                        </div>
+                                        <div style="float:right">
+                                            <div class="personal-info" style="text-align: right;">
+                                                <b><em>TomChienXu Organization</em></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="card-footer">
+                        <h3 class="card-title">{{ banner.name }}</h3>
+
+                        <form action="{{ url('user_banner_select', pk=banner.id) }}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="card-btn">
+                                {% if profile.active_banner == banner %}
+                                    {{ _('Equipped') }}
+                                {% else %}
+                                    {{ _('Equip') }}
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

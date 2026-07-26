@@ -259,7 +259,97 @@ class Badge(models.Model):
                                  validators=[validate_relative_or_absolute])
 
     def __str__(self):
-        return self.name
+        return f'Badge: {self.name}'
+
+
+class Nameplate(models.Model):
+    enable = models.BooleanField(default=True, verbose_name=_('Enable Nameplate'))
+    buyable = models.BooleanField(default=True, verbose_name=_('Buyable Nameplate'))
+    name = models.CharField(
+        max_length=128,
+        verbose_name=_('Name of the Nameplate'),
+    )
+    class_name = models.CharField(
+        max_length=64,
+        unique=True,
+        verbose_name=_('CSS Nameplate class name'),
+        help_text=_('Example: cute, legendary, halloween'),
+    )
+    cost = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_('cost'),
+        help_text=_('Cost in Connhen. Set to 0 for free nameplates.'),
+    )
+    image = models.CharField(
+        max_length=1000,
+        verbose_name=_('nameplate image URL'),
+        blank=True,
+        validators=[validate_relative_or_absolute],
+        help_text=_('Nameplate image URL. Reserved for future use.'),
+    )
+
+    def __str__(self):
+        return f'Nameplate: {self.name} ({self.class_name})'
+
+
+class Banner(models.Model):
+    enable = models.BooleanField(default=True, verbose_name=_('Enable Banner'))
+    buyable = models.BooleanField(default=True, verbose_name=_('Buyable Banner'))
+    name = models.CharField(
+        max_length=128,
+        verbose_name=_('Name of the Banner'),
+    )
+    class_name = models.CharField(
+        max_length=64,
+        unique=True,
+        verbose_name=_('CSS Banner class name'),
+        help_text=_('Example: cute, legendary, halloween'),
+    )
+    cost = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_('cost'),
+        help_text=_('Cost in Connhen. Set to 0 for free banners.'),
+    )
+    image = models.CharField(
+        max_length=1000,
+        verbose_name=_('banner image URL'),
+        blank=True,
+        validators=[validate_relative_or_absolute],
+        help_text=_('Banner image URL. Reserved for future use.'),
+    )
+
+    def __str__(self):
+        return f'Banner: {self.name} ({self.class_name})'
+
+
+class AvatarFrame(models.Model):
+    enable = models.BooleanField(default=True, verbose_name=_('Enable Avatar Frame'))
+    buyable = models.BooleanField(default=True, verbose_name=_('Buyable Avatar Frame'))
+    name = models.CharField(
+        max_length=128,
+        verbose_name=_('Name of the Avatar Frame'),
+    )
+    class_name = models.CharField(
+        max_length=64,
+        unique=True,
+        verbose_name=_('CSS Avatar Frame class name'),
+        help_text=_('Example: cute, legendary, halloween'),
+    )
+    cost = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_('cost'),
+        help_text=_('Cost in Connhen. Set to 0 for free avatar frames.'),
+    )
+    image = models.CharField(
+        max_length=1000,
+        verbose_name=_('Avatar Frame image URL'),
+        blank=True,
+        validators=[validate_relative_or_absolute],
+        help_text=_('Avatar Frame image URL. Reserved for future use.'),
+    )
+
+    def __str__(self):
+        return f'Avatar Frame: {self.name} ({self.class_name})'
 
 
 class Profile(models.Model):
@@ -284,8 +374,17 @@ class Profile(models.Model):
     display_badge = models.ForeignKey(Badge, verbose_name=_('display badge'), null=True, on_delete=models.SET_NULL)
     organizations = SortedManyToManyField(Organization, verbose_name=_('organization'), blank=True,
                                           related_name='members', related_query_name='member')
-    display_rank = models.CharField(max_length=10, default='user', verbose_name=_('display rank'),
-                                    choices=settings.VNOJ_DISPLAY_RANKS)
+    display_rank = models.CharField(max_length=64, default='user', verbose_name=_('display rank'))
+    nameplates = models.ManyToManyField(Nameplate, verbose_name=_('nameplates'), blank=True, related_name='owners')
+    active_nameplate = models.ForeignKey(Nameplate, verbose_name=_('active nameplate'), blank=True, null=True,
+                                         on_delete=models.SET_NULL)
+    banners = models.ManyToManyField(Banner, verbose_name=_('banners'), blank=True, related_name='owners')
+    active_banner = models.ForeignKey(Banner, verbose_name=_('active banner'), blank=True, null=True,
+                                      on_delete=models.SET_NULL)
+    avatar_frames = models.ManyToManyField(AvatarFrame, verbose_name=_('avatar frames'), blank=True,
+                                           related_name='owners')
+    active_avatar_frame = models.ForeignKey(AvatarFrame, verbose_name=_('active avatar frame'), blank=True, null=True,
+                                            on_delete=models.SET_NULL)
     mute = models.BooleanField(verbose_name=_('comment mute'), help_text=_('Some users are at their best when silent.'),
                                default=False)
     is_unlisted = models.BooleanField(verbose_name=_('unlisted user'), help_text=_('User will not be ranked.'),
@@ -330,6 +429,10 @@ class Profile(models.Model):
     data_last_downloaded = models.DateTimeField(verbose_name=_('last data download time'), null=True, blank=True)
     username_display_override = models.CharField(max_length=100, blank=True, verbose_name=_('display name override'),
                                                  help_text=_('Name displayed in place of username.'))
+    connhen = models.IntegerField(default=0, verbose_name=_('Connhen'),
+                                  help_text=_('The amount of Connhen (Spiders) owned by the user.'))
+    display_connhen_balance = models.BooleanField(default=True, verbose_name=_('Display Connhen balance'),
+                                                  help_text=_('Display Connhen balance on on navigation bar.'))
 
     @classmethod
     def get_ticket_secret(cls, profile_id):
@@ -473,6 +576,20 @@ class Profile(models.Model):
 
     update_contribution_points.alters_data = True
 
+    def add_connhen(self, amount):
+        self.connhen += amount
+        self.save(update_fields=['connhen'])
+
+    add_connhen.alters_data = True
+
+    def remove_connhen(self, amount):
+        if self.connhen < amount:
+            raise ValueError(_('Not enough Connhen!'))
+        self.connhen -= amount
+        self.save(update_fields=['connhen'])
+
+    remove_connhen.alters_data = True
+
     def generate_api_token(self):
         secret = secrets.token_bytes(32)
         self.api_token = hmac.new(force_bytes(settings.SECRET_KEY), msg=secret, digestmod='sha256').hexdigest()
@@ -544,7 +661,7 @@ class Profile(models.Model):
     def unban_user(self):
         self.ban_reason = None
         self.ban_expires_at = None
-        self.display_rank = Profile._meta.get_field('display_rank').get_default()
+        self.safely_equip_nameplate(self.active_nameplate)
         self.is_unlisted = False
         self.save(update_fields=['ban_reason', 'ban_expires_at', 'display_rank', 'is_unlisted'])
 
@@ -552,6 +669,88 @@ class Profile(models.Model):
         self.user.save(update_fields=['is_active'])
 
     unban_user.alters_data = True
+
+    def safely_equip_nameplate(self, nameplate):
+        if not nameplate:
+            self.clear_nameplate()
+        else:
+            self.equip_nameplate(nameplate)
+
+    safely_equip_nameplate.alters_data = True
+
+    def equip_nameplate(self, nameplate):
+        self.active_nameplate = nameplate
+
+        if self.is_banned:
+            self.display_rank = 'banned'
+        else:
+            self.display_rank = nameplate.class_name
+
+        self.save(update_fields=['active_nameplate', 'display_rank'])
+
+    equip_nameplate.alters_data = True
+
+    def clear_nameplate(self):
+        self.active_nameplate = None
+
+        if self.is_banned:
+            self.display_rank = 'banned'
+        else:
+            self.display_rank = 'user'
+
+        self.save(update_fields=['active_nameplate', 'display_rank'])
+
+    clear_nameplate.alters_data = True
+
+    def safely_equip_banner(self, banner):
+        if not banner:
+            self.clear_banner()
+        else:
+            self.equip_banner(banner)
+
+    safely_equip_banner.alters_data = True
+
+    def equip_banner(self, banner):
+        self.active_banner = banner
+        self.save(update_fields=['active_banner', 'display_rank'])
+
+    equip_banner.alters_data = True
+
+    def clear_banner(self):
+        self.active_banner = None
+        self.save(update_fields=['active_banner', 'display_rank'])
+
+    clear_banner.alters_data = True
+
+    def safely_equip_avatar_frame(self, avatar_frame):
+        if not avatar_frame:
+            self.clear_avatar_frame()
+        else:
+            self.equip_avatar_frame(avatar_frame)
+
+    safely_equip_avatar_frame.alters_data = True
+
+    def equip_avatar_frame(self, avatar_frame):
+        self.active_avatar_frame = avatar_frame
+        self.save(update_fields=['active_avatar_frame', 'display_rank'])
+
+    equip_avatar_frame.alters_data = True
+
+    def clear_avatar_frame(self):
+        self.active_avatar_frame = None
+        self.save(update_fields=['active_avatar_frame', 'display_rank'])
+
+    clear_avatar_frame.alters_data = True
+
+    def clean(self):
+        if self.active_nameplate and not self.nameplates.filter(pk=self.active_nameplate.pk).exists():
+            raise ValidationError(_('User does not own this nameplate.'))
+
+        if self.active_banner and not self.banners.filter(pk=self.active_banner.pk).exists():
+            raise ValidationError(_('User does not own this banner.'))
+
+        if self.active_avatar_frame and not self.avatar_frames.filter(pk=self.active_avatar_frame.pk).exists():
+            raise ValidationError(_('User does not own this avatar frame.'))
 
     def get_absolute_url(self):
         return reverse('user_page', args=(self.user.username,))
@@ -567,7 +766,21 @@ class Profile(models.Model):
 
     @cached_property
     def css_class(self):
-        return self.get_user_css_class(self.display_rank, self.rating)
+        classes = [self.get_user_css_class(self.display_rank, self.rating)]
+
+        if self.active_banner:
+            classes.append(f'banner-{self.active_banner.class_name}')
+
+        return ' '.join(classes)
+
+    @cached_property
+    def rating_css_class_name(self):
+        return rating_class(self.rating) if self.rating is not None else 'rate-none'
+
+    @cached_property
+    def avatar_frame_css_class_name(self):
+        return f'has-avatar-frame avatar-frame-{self.active_avatar_frame.class_name}' \
+            if self.active_avatar_frame else 'no-avatar-frame'
 
     @cached_property
     def webauthn_id(self):

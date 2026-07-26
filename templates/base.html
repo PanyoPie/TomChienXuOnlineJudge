@@ -325,6 +325,18 @@
         </ul>
 
         <span id="user-links">
+            {% if request.user.is_authenticated and request.user.profile.display_connhen_balance %}
+            <span>
+                <img
+                        src="{{ static('icons/connhen.webp') }}"
+                        alt="Connhen"
+                        width="20"
+                        height="20"
+                        style="vertical-align: middle;"
+                    >
+                    <span style="color: white; margin-left: 2px;">{{ request.profile.connhen }}</span>
+            </span>
+            {% endif %}
             <ul>
                 <li>
                     {% if request.user.is_superuser %}
@@ -406,11 +418,12 @@
                                 <span>{{ _('Hello, %(username)s.', username=bold(request.user.first_name or request.profile.display_name)) }}</span>
                             </span>
                         </a>
-                        <ul style="width: 150px; right: 0; left: auto;">
+                        <ul style="width: fit-content; right: 0; left: auto;">
                             {% if request.user.is_staff or request.user.is_superuser %}
                                 <li><a href="{{ url('admin:index') }}">{{ _('Admin') }}</a></li>
                             {% endif %}
                             <li><a href="{{ url('user_edit_profile') }}">{{ _('Edit profile') }}</a></li>
+                            <li><a href="{{ url('user_cosmetic') }}">{{ _('Edit cosmetics') }}</a></li>
                             {% if request.user.is_impersonate %}
                                 <li><a href="{{ url('impersonate-stop') }}">{{ _('Stop impersonating') }}</a></li>
                             {% else %}

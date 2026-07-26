@@ -3,9 +3,11 @@
 {% else %}
 <section id="message-{{ message.id }}" class="ticket-message">
     <div class="info">
-        <a href="{{ url('user_page', message.user.user.username) }}" class="user">
-            <img src="{{ gravatar(message.user, 80) }}" class="user-gravatar">
-        </a>
+        <div class="user-gravatar-container user-gravatar-comment-container {{ message.user.avatar_frame_css_class_name }}">
+            <a href="{{ url('user_page', message.user.user.username) }}" class="user">
+                <img src="{{ gravatar(message.user, 80) }}" class="user-gravatar">
+            </a>
+        </div>
     </div>
     <div class="detail">
         <div class="header">

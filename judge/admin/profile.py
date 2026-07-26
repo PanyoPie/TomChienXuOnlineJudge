@@ -17,12 +17,29 @@ class ProfileForm(ModelForm):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['display_badge'].queryset = self.instance.badges.all()
         self.fields['display_badge'].required = False
+        self.fields['active_nameplate'].queryset = self.instance.nameplates.all()
+        self.fields['active_nameplate'].required = False
+        self.fields['active_banner'].queryset = self.instance.banners.all()
+        self.fields['active_banner'].required = False
+        self.fields['active_avatar_frame'].queryset = self.instance.avatar_frames.all()
+        self.fields['active_avatar_frame'].required = False
         if 'current_contest' in self.base_fields:
             # form.fields['current_contest'] does not exist when the user has only view permission on the model.
             self.fields['current_contest'].queryset = self.instance.contest_history.select_related('contest') \
                 .only('contest__name', 'user_id', 'virtual')
             self.fields['current_contest'].label_from_instance = \
                 lambda obj: '%s v%d' % (obj.contest.name, obj.virtual) if obj.virtual else obj.contest.name
+
+    def save(self, commit=True):
+        profile = super().save(commit=False)
+
+        nameplate = self.cleaned_data['active_nameplate']
+        profile.safely_equip_nameplate(nameplate)
+
+        if commit:
+            profile.save()
+
+        return profile
 
     class Meta:
         widgets = {
@@ -32,6 +49,12 @@ class ProfileForm(ModelForm):
             'current_contest': AdminSelect2Widget,
             'badges': AdminSelect2MultipleWidget(),
             'display_badge': AdminSelect2Widget,
+            'nameplates': AdminSelect2MultipleWidget(),
+            'active_nameplate': AdminSelect2Widget,
+            'banners': AdminSelect2MultipleWidget(),
+            'active_banner': AdminSelect2Widget,
+            'avatar_frames': AdminSelect2MultipleWidget(),
+            'active_avatar_frame': AdminSelect2Widget,
             'about': AdminMartorWidget(attrs={'data-markdownfy-url': reverse_lazy('profile_preview')}),
         }
 
@@ -59,11 +82,13 @@ class WebAuthnInline(admin.TabularInline):
 
 
 class ProfileAdmin(NoBatchDeleteMixin, VersionAdmin):
-    fields = ('user', 'display_rank', 'badges', 'display_badge', 'about', 'organizations', 'vnoj_points', 'timezone',
+    fields = ('user', 'display_rank', 'connhen', 'display_connhen_balance', 'badges', 'display_badge', 'nameplates',
+              'active_nameplate', 'banners', 'active_banner', 'avatar_frames', 'active_avatar_frame', 'about',
+              'organizations', 'vnoj_points', 'timezone',
               'language', 'ace_theme', 'math_engine', 'last_access', 'ip', 'mute', 'is_unlisted', 'allow_tagging',
               'notes', 'username_display_override', 'ban_reason', 'ban_expires_at', 'is_totp_enabled', 'ip_auth',
               'user_script', 'current_contest')
-    readonly_fields = ('user',)
+    readonly_fields = ('user', 'display_rank')
     list_display = ('admin_user_admin', 'email', 'is_totp_enabled', 'timezone_full',
                     'date_joined', 'last_access', 'ip', 'show_public')
     ordering = ('user__username',)

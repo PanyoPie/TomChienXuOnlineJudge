@@ -11,7 +11,9 @@
 {% block body %}
     <div class="user-info-page">
         <div class="user-sidebar">
-            <img src="{{ gravatar(user, 135) }}" class="user-gravatar">
+            <div class="user-gravatar-container {{ user.avatar_frame_css_class_name }}">
+                <img src="{{ gravatar(user, 135) }}" class="user-gravatar">
+            </div>
             <br>
             {% if user.user == request.user or request.user.is_superuser %}
                 <div>

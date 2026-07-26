@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+    {{ _('Avatar Frames') }}
+{% endblock %}
+
+{% set title = _("Avatar Frames") %}
+
+{% block body %}
+    <div class="avatar-frame-grid">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-preview" style="padding: 1em;">
+                    <span class="rating {{ profile.rating_css_class_name }}">
+                        <div class="user-gravatar-container no-avatar-frame">
+                            <img src="{{ gravatar(request.user, 135) }}" class="user-gravatar">
+                        </div>
+                    </span>
+                </div>
+
+                <div class="card-footer">
+                    <h3 class="card-title">{{ _('No Avatar Frames') }}</h3>
+
+                    <form action="{{ url('user_avatar_frame_clear') }}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="card-btn">
+                            {% if not profile.active_avatar_frame %}
+                                {{ _('Equipped') }}
+                            {% else %}
+                                {{ _('Equip') }}
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for avatar_frame in avatar_frames %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-preview" style="padding: 1em;">
+                        <div class="user-gravatar-container has-avatar-frame avatar-frame-{{ avatar_frame.class_name }}">
+                            <img src="{{ gravatar(request.user, 135) }}" class="user-gravatar">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <h3 class="card-title">{{ avatar_frame.name }}</h3>
+
+                        <form action="{{ url('user_avatar_frame_select', pk=avatar_frame.id) }}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="card-btn">
+                                {% if profile.active_avatar_frame == avatar_frame %}
+                                    {{ _('Equipped') }}
+                                {% else %}
+                                    {{ _('Equip') }}
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

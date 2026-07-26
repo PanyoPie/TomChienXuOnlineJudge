@@ -1,0 +1,44 @@
+@use "vars" as *;
+
+.cosmetic-grid {
+    display: grid;
+    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+    grid-template-areas:
+        "avatar banner"
+        "avatar nameplate";
+    column-gap: 1rem;
+    row-gap: 0.1rem;
+    align-items: start;
+}
+
+.card-banner {
+    grid-area: banner;
+}
+
+.card-avatar-frame {
+    grid-area: avatar;
+    align-self: start;
+}
+
+.card-nameplate {
+    grid-area: nameplate;
+    justify-self: start;
+    width: fit-content;
+    min-width: 250px;
+}
+
+@media (max-width: 900px) {
+    .cosmetic-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "banner"
+            "avatar"
+            "nameplate";
+    }
+}
+
+@media (max-width: 600px) {
+    .cosmetic-grid {
+        gap: 0.75rem;
+    }
+}

@@ -1,0 +1,103 @@
+@use "vars" as *;
+
+.banner-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .banner-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    width: 100%;
+    background: $color_problem_submit_bg;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+    transition: transform .2s, box-shadow .2s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+}
+
+.card-content {
+    padding: 12px;
+}
+
+.card-preview {
+    margin: 10px 0;
+}
+
+.card-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.card-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.banner-preview-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.banner-preview-table td {
+    border-color: #cccccc;
+    border-width: 1px;
+    border-style: solid;
+    padding: 7px 10px;
+    vertical-align: middle;
+    background: $color_problem_submit_bg;
+}
+
+.user-name {
+    position: relative;
+    overflow: hidden;
+}
+
+.user-name:has(.banner-zonai)::after {
+    content: '';
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 35%;
+    height: 100%;
+    background: url('/static/tomchienxu-banners/zonai-banner.webp') no-repeat right center;
+    background-size: cover;
+
+    opacity: 0.9;
+
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.6) 75%,
+        rgba(0, 0, 0, 0) 100%
+    );
+
+    pointer-events: none;
+}

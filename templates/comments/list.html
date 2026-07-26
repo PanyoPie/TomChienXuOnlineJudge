@@ -47,18 +47,22 @@
                                     {% endif %}
                                 </div>
                                 {% with author=node.author, user=node.author.user %}
-                                    <a href="{{ url('user_page', user.username) }}" class="user gravatar-main">
-                                        <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
-                                    </a>
+                                    <div class="user-gravatar-container user-gravatar-comment-container {{ request.profile.avatar_frame_css_class_name }}">
+                                        <a href="{{ url('user_page', user.username) }}" class="user gravatar-main">
+                                            <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
+                                        </a>
+                                    </div>
                                 {% endwith %}
                             </div>
                             <div class="detail">
                                 <div class="header">
                                     <span>
                                         {% with author=node.author, user=node.author.user %}
-                                            <a href="{{ url('user_page', user.username) }}" class="user gravatar-mobile">
-                                                <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
-                                            </a>
+                                            <div class="user-gravatar-container user-gravatar-comment-container {{ request.profile.avatar_frame_css_class_name }}">
+                                                <a href="{{ url('user_page', user.username) }}" class="user gravatar-mobile">
+                                                    <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
+                                                </a>
+                                            </div>
                                         {% endwith %}
                                         {{ link_user(node.author) }}&nbsp;
                                     </span>

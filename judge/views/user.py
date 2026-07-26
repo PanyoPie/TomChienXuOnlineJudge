@@ -505,6 +505,143 @@ class UserDownloadData(LoginRequiredMixin, UserDataMixin, View):
 
 
 @login_required
+def cosmetic_list(request):
+    profile = (
+        Profile.objects
+        .select_related(
+            'active_banner',
+            'active_nameplate',
+            'active_avatar_frame',
+            'user',
+        )
+        .prefetch_related('nameplates', 'banners', 'avatar_frames')
+        .get(pk=request.profile.pk)
+    )
+    return render(request, 'user/user-cosmetic.html', {
+        'profile': profile,
+        'nameplates': profile.nameplates.all(),
+        'banners': profile.banners.all(),
+        'avatar_frames': profile.avatar_frames.all(),
+    })
+
+
+@login_required
+def nameplate_list(request):
+    profile = (
+        Profile.objects
+        .select_related(
+            'active_banner',
+            'active_nameplate',
+            'user',
+        )
+        .prefetch_related('nameplates')
+        .get(pk=request.profile.pk)
+    )
+    return render(request, 'user/user-nameplate.html', {
+        'profile': profile,
+        'nameplates': profile.nameplates.all(),
+    })
+
+
+@login_required
+@require_POST
+def nameplate_select(request, pk):
+    nameplate = get_object_or_404(
+        request.profile.nameplates,
+        pk=pk,
+    )
+
+    request.profile.safely_equip_nameplate(nameplate)
+
+    return HttpResponseRedirect(reverse('user_nameplate'))
+
+
+@login_required
+@require_POST
+def nameplate_clear(request):
+    request.profile.clear_nameplate()
+
+    return HttpResponseRedirect(reverse('user_nameplate'))
+
+
+@login_required
+def banner_list(request):
+    profile = (
+        Profile.objects
+        .select_related(
+            'active_banner',
+            'active_nameplate',
+            'user',
+        )
+        .prefetch_related('banners')
+        .get(pk=request.profile.pk)
+    )
+    return render(request, 'user/user-banner.html', {
+        'profile': profile,
+        'banners': profile.banners.all(),
+    })
+
+
+@login_required
+@require_POST
+def banner_select(request, pk):
+    banner = get_object_or_404(
+        request.profile.banners,
+        pk=pk,
+    )
+
+    request.profile.safely_equip_banner(banner)
+
+    return HttpResponseRedirect(reverse('user_banner'))
+
+
+@login_required
+@require_POST
+def banner_clear(request):
+    request.profile.clear_banner()
+
+    return HttpResponseRedirect(reverse('user_banner'))
+
+
+@login_required
+def avatar_frame_list(request):
+    profile = (
+        Profile.objects
+        .select_related(
+            'active_avatar_frame',
+            'user',
+        )
+        .prefetch_related('avatar_frames')
+        .get(pk=request.profile.pk)
+    )
+    return render(request, 'user/user-avatar-frame.html', {
+        'profile': profile,
+        'avatar_frames': profile.avatar_frames.all(),
+    })
+
+
+@login_required
+@require_POST
+def avatar_frame_select(request, pk):
+    avatar_frame = get_object_or_404(
+        request.profile.avatar_frames,
+        pk=pk,
+    )
+
+    request.profile.safely_equip_avatar_frame(avatar_frame)
+
+    return HttpResponseRedirect(reverse('user_avatar_frame'))
+
+
+@login_required
+@require_POST
+def avatar_frame_clear(request):
+    request.profile.clear_avatar_frame()
+
+    return HttpResponseRedirect(reverse('user_avatar_frame'))
+
+
+@login_required
 def edit_profile(request):
     if request.profile.mute:
         return generic_message(request, _("Can't edit profile"), _('Your part is silent, little toad.'), status=403)

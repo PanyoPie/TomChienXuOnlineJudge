@@ -1,0 +1,72 @@
+@use "vars" as *;
+
+.nameplate-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .nameplate-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .nameplate-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .nameplate-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    width: 100%;
+    background: $color_problem_submit_bg;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+    transition: transform .2s, box-shadow .2s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+}
+
+.card-content {
+    padding: 12px;
+}
+
+.card-preview {
+    margin: 10px 0;
+}
+
+.card-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.card-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+    {{ _('Cosmetics') }}
+{% endblock %}
+
+{% set title = _('Cosmetics') %}
+
+{% block body %}
+<div class="cosmetic-grid">
+    <div class="card card-avatar-frame">
+        <div class="card-content">
+            <div class="card-preview" style="padding: 1em;">
+                <span class="rating {{ profile.rating_css_class_name }}">
+                    <div class="user-gravatar-container {{ profile.avatar_frame_css_class_name }}">
+                        <img src="{{ gravatar(request.user, 135) }}" class="user-gravatar">
+                    </div>
+                </span>
+            </div>
+
+            <div class="card-footer">
+                <h3 class="card-title">{{ _('No Avatar Frames') if not profile.active_avatar_frame else profile.active_avatar_frame.name }}</h3>
+                <a href="{{ url('user_avatar_frame') }}">
+                    <button type="submit" class="card-btn">
+                        {{ _('Change') }}
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-banner">
+        <div class="card-content">
+            <div class="card-preview">
+                <table class="banner-preview-table">
+                    <tr>
+                        <td class="user-name">
+                            <div>
+                                <div style="float:left">
+                                    <span class="rating {{ profile.css_class }}">
+                                        <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                                            {{ request.user.username }}
+                                        </a>
+                                    </span>
+                                    <div class="personal-info">
+                                        <span>{{ request.user.first_name }}</span>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <div class="personal-info" style="text-align: right;">
+                                        <b><em>TomChienXu Organization</em></b>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <h3 class="card-title">{{ _('No Banners') if not profile.active_banner else profile.active_banner.name }}</h3>
+
+                <a href="{{ url('user_banner') }}">
+                    <button type="submit" class="card-btn">
+                        {{ _('Change') }}
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-nameplate">
+        <div class="card-content">
+            <div class="card-preview">
+                <span class="rating {{ profile.css_class }}">
+                    <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                        {{ request.user.username }}
+                    </a>
+                </span>
+            </div>
+
+            <div class="card-footer">
+                <h3 class="card-title">{{ _('No Nameplates') if not profile.active_nameplate else profile.active_nameplate.name }}</h3>
+
+                <a href="{{ url('user_nameplate') }}">
+                    <button type="submit" class="card-btn">
+                        {{ _('Change') }}
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

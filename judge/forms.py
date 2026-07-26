@@ -56,7 +56,7 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         fields = ['about', 'display_badge', 'organizations', 'timezone', 'language', 'ace_theme',
-                  'site_theme', 'user_script']
+                  'site_theme', 'user_script', 'display_connhen_balance']
         widgets = {
             'display_badge': Select2Widget(attrs={'style': 'width:200px'}),
             'timezone': Select2Widget(attrs={'style': 'width:200px'}),

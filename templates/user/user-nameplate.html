@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+    {{ _('Nameplates') }}
+{% endblock %}
+
+{% set title = _("Nameplates") %}
+
+{% block body %}
+    <div class="nameplate-grid">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-preview">
+                    <span class="rating {{ profile.rating_css_class_name }}">
+                        <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                            {{ request.user.username }}
+                        </a>
+                    </span>
+                </div>
+
+                <div class="card-footer">
+                    <h3 class="card-title">{{ _('No Nameplates') }}</h3>
+
+                    <form action="{{ url('user_nameplate_clear') }}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="card-btn">
+                            {% if not profile.active_nameplate %}
+                                {{ _('Equipped') }}
+                            {% else %}
+                                {{ _('Equip') }}
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for nameplate in nameplates %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-preview">
+                        <span class="rating {{ profile.rating_css_class_name }} {{ nameplate.class_name }}">
+                            <a href="{{ profile.get_absolute_url() }}" style="display: inline-block;">
+                                {{ request.user.username }}
+                            </a>
+                        </span>
+                    </div>
+
+                    <div class="card-footer">
+                        <h3 class="card-title">{{ nameplate.name }}</h3>
+
+                        <form action="{{ url('user_nameplate_select', pk=nameplate.id) }}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="card-btn">
+                                {% if profile.active_nameplate == nameplate %}
+                                    {{ _('Equipped') }}
+                                {% else %}
+                                    {{ _('Equip') }}
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -270,9 +270,11 @@
             <section class="ticket-message new-message">
                 <div class="info">
                     <div class="user-info">
-                        <a href="{{ url('user_page', request.user.username) }}" class="user">
-                            <img src="{{ gravatar(request.user, 80) }}" class="user-gravatar">
-                        </a>
+                        <div class="user-gravatar-container user-gravatar-comment-container {{ request.profile.avatar_frame_css_class_name }}">
+                            <a href="{{ url('user_page', request.user.username) }}" class="user">
+                                <img src="{{ gravatar(request.user, 80) }}" class="user-gravatar">
+                            </a>
+                        </div>
                     </div>
                     {% if autofill_replies %}
                         <div class="autofill">

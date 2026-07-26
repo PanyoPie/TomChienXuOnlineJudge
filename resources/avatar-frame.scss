@@ -1,0 +1,123 @@
+@use "vars" as *;
+
+@mixin avatar-frame-background($image-url) {
+    background: url(#{$image-url}) center/contain no-repeat;
+}
+
+.avatar-frame-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .avatar-frame-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .avatar-frame-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .avatar-frame-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    width: 100%;
+    background: $color_problem_submit_bg;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+    transition: transform .2s, box-shadow .2s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+}
+
+.card-content {
+    padding: 12px;
+}
+
+.card-preview {
+    margin: 10px 0;
+}
+
+.card-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.card-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.user-gravatar-container {
+    position: relative;
+    height: fit-content;
+}
+
+.user-gravatar-container.has-avatar-frame {
+    margin: 1rem 1rem;
+}
+
+.user-gravatar-container.user-gravatar-comment-container.has-avatar-frame {
+    margin: 0rem;
+}
+
+.user-gravatar-container.has-avatar-frame::after {
+    content: "";
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform-origin: center;
+    z-index: 10000;
+}
+
+.user-gravatar-container.has-avatar-frame::after {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.user-gravatar-container.user-gravatar-comment-container.has-avatar-frame::after {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.avatar-frame-moth::after {
+    @include avatar-frame-background("https://shared.fastly.steamstatic.com/community_assets/images/items/2778250/be0a6840a692db69eb0c72b875bb350dbb90ea1e.png");
+}
+
+.avatar-frame-taffy::after {
+    @include avatar-frame-background("https://shared.fastly.steamstatic.com/community_assets/images/items/2778250/7581235a126b2c4d9f903367344293b98ddfa6a3.png");
+}
+
+.avatar-frame-lilith::after {
+    @include avatar-frame-background("https://shared.fastly.steamstatic.com/community_assets/images/items/2873080///7591f6defdeafebf72d2bfdc75fc7568262557ba.png");
+}
