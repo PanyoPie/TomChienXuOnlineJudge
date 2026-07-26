@@ -325,7 +325,7 @@
         </ul>
 
         <span id="user-links">
-            {% if request.user.is_authenticated and request.user.profile.display_connhen_balance %}
+            {% if TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE and request.user.is_authenticated and request.user.profile.display_connhen_balance %}
             <span>
                 <img
                         src="{{ static('icons/connhen.webp') }}"
