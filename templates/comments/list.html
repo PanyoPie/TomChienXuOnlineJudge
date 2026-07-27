@@ -47,7 +47,7 @@
                                     {% endif %}
                                 </div>
                                 {% with author=node.author, user=node.author.user %}
-                                    <div class="user-gravatar-container user-gravatar-comment-container {{ request.profile.avatar_frame_css_class_name }}">
+                                    <div class="user-gravatar-container user-gravatar-comment-container {{ author.avatar_frame_css_class_name }}">
                                         <a href="{{ url('user_page', user.username) }}" class="user gravatar-main">
                                             <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
                                         </a>
@@ -58,7 +58,7 @@
                                 <div class="header">
                                     <span>
                                         {% with author=node.author, user=node.author.user %}
-                                            <div class="user-gravatar-container user-gravatar-comment-container {{ request.profile.avatar_frame_css_class_name }}">
+                                            <div class="user-gravatar-container user-gravatar-comment-container {{ author.avatar_frame_css_class_name }}">
                                                 <a href="{{ url('user_page', user.username) }}" class="user gravatar-mobile">
                                                     <img src="{{ gravatar(author, 75) }}" class="user-gravatar">
                                                 </a>

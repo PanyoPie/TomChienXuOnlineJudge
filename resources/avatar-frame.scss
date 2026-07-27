@@ -99,11 +99,11 @@
     height: 100%;
 
     transform-origin: center;
-    z-index: 10000;
+    z-index: 10;
 }
 
 .user-gravatar-container.has-avatar-frame::after {
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 .user-gravatar-container.user-gravatar-comment-container.has-avatar-frame::after {
@@ -120,4 +120,5 @@
 
 .avatar-frame-lilith::after {
     @include avatar-frame-background("https://shared.fastly.steamstatic.com/community_assets/images/items/2873080///7591f6defdeafebf72d2bfdc75fc7568262557ba.png");
+    transform: translate(-50%, -50%) scale(1.2) !important;
 }
