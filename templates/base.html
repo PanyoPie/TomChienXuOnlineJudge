@@ -423,7 +423,9 @@
                                 <li><a href="{{ url('admin:index') }}">{{ _('Admin') }}</a></li>
                             {% endif %}
                             <li><a href="{{ url('user_edit_profile') }}">{{ _('Edit profile') }}</a></li>
-                            <li><a href="{{ url('user_cosmetic') }}">{{ _('Edit cosmetics') }}</a></li>
+                            {% if TOMCHIENXU_ENABLE_COSMETICS %}
+                                <li><a href="{{ url('user_cosmetic') }}">{{ _('Edit cosmetics') }}</a></li>
+                            {% endif %}
                             {% if request.user.is_impersonate %}
                                 <li><a href="{{ url('impersonate-stop') }}">{{ _('Stop impersonating') }}</a></li>
                             {% else %}

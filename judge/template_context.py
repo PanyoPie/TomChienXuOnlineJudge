@@ -31,10 +31,9 @@ def get_resource(request):
         'DMOJ_SCHEME': scheme,
         'DMOJ_CANONICAL': settings.DMOJ_CANONICAL,
         'DMOJ_SELECT2_THEME': settings.DMOJ_SELECT2_THEME,
-        'TOMCHIENXU_CUSTOM_THEME': getattr(settings, 'TOMCHIENXU_CUSTOM_THEME', False),
-        'TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE': getattr(settings,
-                                                               'TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE',
-                                                               False),
+        'TOMCHIENXU_CUSTOM_THEME': settings.TOMCHIENXU_CUSTOM_THEME,
+        'TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE': settings.TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE,
+        'TOMCHIENXU_ENABLE_COSMETICS': settings.TOMCHIENXU_ENABLE_COSMETICS,
     }
 
 

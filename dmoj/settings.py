@@ -870,6 +870,8 @@ ACE_DEFAULT_DARK_THEME = DMOJ_THEME_DEFAULT_ACE_THEME['dark']
 OAUTH_ONLY = False
 
 TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE = False
+TOMCHIENXU_ENABLE_COSMETICS = False
+TOMCHIENXU_CUSTOM_THEME = ''
 
 try:
     with open(os.path.join(os.path.dirname(__file__), 'local_settings.py')) as f:

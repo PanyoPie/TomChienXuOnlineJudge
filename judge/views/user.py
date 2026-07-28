@@ -25,7 +25,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.formats import date_format
-from django.utils.functional import cached_property
+from django.utils.functional import cached_property, wraps
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _, gettext_lazy
 from django.views.decorators.http import require_POST
@@ -54,6 +54,17 @@ from .contests import ContestRanking
 
 __all__ = ['UserPage', 'UserAboutPage', 'UserProblemsPage', 'UserCommentPage', 'UserDownloadData', 'UserPrepareData',
            'users', 'edit_profile']
+
+
+def enable_cosmetics_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not settings.TOMCHIENXU_ENABLE_COSMETICS:
+            return generic_message(request,
+                                   _('Cosmetics disabled'),
+                                   _('Cosmetics are disabled on this site.'), status=403)
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 
 def remap_keys(iterable, mapping):
@@ -504,6 +515,7 @@ class UserDownloadData(LoginRequiredMixin, UserDataMixin, View):
         return response
 
 
+@enable_cosmetics_required
 @login_required
 def cosmetic_list(request):
     profile = (
@@ -525,6 +537,7 @@ def cosmetic_list(request):
     })
 
 
+@enable_cosmetics_required
 @login_required
 def nameplate_list(request):
     profile = (
@@ -543,6 +556,7 @@ def nameplate_list(request):
     })
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def nameplate_select(request, pk):
@@ -556,6 +570,7 @@ def nameplate_select(request, pk):
     return HttpResponseRedirect(reverse('user_nameplate'))
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def nameplate_clear(request):
@@ -564,6 +579,7 @@ def nameplate_clear(request):
     return HttpResponseRedirect(reverse('user_nameplate'))
 
 
+@enable_cosmetics_required
 @login_required
 def banner_list(request):
     profile = (
@@ -582,6 +598,7 @@ def banner_list(request):
     })
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def banner_select(request, pk):
@@ -595,6 +612,7 @@ def banner_select(request, pk):
     return HttpResponseRedirect(reverse('user_banner'))
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def banner_clear(request):
@@ -603,6 +621,7 @@ def banner_clear(request):
     return HttpResponseRedirect(reverse('user_banner'))
 
 
+@enable_cosmetics_required
 @login_required
 def avatar_frame_list(request):
     profile = (
@@ -620,6 +639,7 @@ def avatar_frame_list(request):
     })
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def avatar_frame_select(request, pk):
@@ -633,6 +653,7 @@ def avatar_frame_select(request, pk):
     return HttpResponseRedirect(reverse('user_avatar_frame'))
 
 
+@enable_cosmetics_required
 @login_required
 @require_POST
 def avatar_frame_clear(request):
