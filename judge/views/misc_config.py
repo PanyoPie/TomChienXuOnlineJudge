@@ -8,6 +8,7 @@ from django.views.generic import FormView
 from judge.models import MiscConfig
 from judge.utils.views import TitleMixin
 from judge.views.widgets import static_uploader
+from judge.widgets import MartorWidget
 
 _TEXT_KEYS = [
     'meta_keywords', 'meta_description', 'analytics', 'top_notification',
@@ -40,31 +41,31 @@ class MiscConfigForm(forms.Form):
     analytics = forms.CharField(
         required=False,
         label=_('Analytics'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Analytics tracking code (raw HTML/JS, injected into every page).'),
     )
     top_notification = forms.CharField(
         required=False,
         label=_('Top notification'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Notification banner shown at the top of every page. Supports Django template syntax.'),
     )
     announcement = forms.CharField(
         required=False,
         label=_('Announcement'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Site-wide announcement (raw HTML).'),
     )
     footer = forms.CharField(
         required=False,
         label=_('Footer'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Footer content (raw HTML).'),
     )
     home_page_top = forms.CharField(
         required=False,
         label=_('Home page top'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Content rendered at the top of the homepage. Supports Django template syntax.'),
     )
     discord_invite_link = forms.CharField(
@@ -80,7 +81,7 @@ class MiscConfigForm(forms.Form):
     description_example = forms.CharField(
         required=False,
         label=_('Description example'),
-        widget=forms.Textarea,
+        widget=MartorWidget,
         help_text=_('Example problem description pre-filled when creating new problems.'),
     )
 

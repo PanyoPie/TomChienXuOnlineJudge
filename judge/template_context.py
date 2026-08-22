@@ -31,9 +31,6 @@ def get_resource(request):
         'DMOJ_SCHEME': scheme,
         'DMOJ_CANONICAL': settings.DMOJ_CANONICAL,
         'DMOJ_SELECT2_THEME': settings.DMOJ_SELECT2_THEME,
-        'TOMCHIENXU_CUSTOM_THEME': settings.TOMCHIENXU_CUSTOM_THEME,
-        'TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE': settings.TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE,
-        'TOMCHIENXU_ENABLE_COSMETICS': settings.TOMCHIENXU_ENABLE_COSMETICS,
     }
 
 
@@ -69,6 +66,8 @@ def general_info(request):
         'REGISTRATION_OPEN': settings.REGISTRATION_OPEN,
         'perms': PermWrapper(request.user),
         'HAS_WEBAUTHN': bool(settings.WEBAUTHN_RP_ID),
+        'TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE': settings.TOMCHIENXU_GLOBALLY_DISPLAY_CONNHEN_BALANCE,
+        'TOMCHIENXU_ENABLE_COSMETICS': settings.TOMCHIENXU_ENABLE_COSMETICS,
     }
     if hasattr(request.user, 'profile'):
         info['NOTIFICATION_SECRET'] = request.profile.notification_secret
@@ -104,6 +103,7 @@ def site_theme(request):
         'LIGHT_STYLE_CSS': settings.DMOJ_THEME_CSS['light'],
         'PREFERRED_STYLE_CSS': preferred_css,
         'SITE_THEME_NAME': site_theme,
+        'TOMCHIENXU_CUSTOM_THEME': settings.TOMCHIENXU_CUSTOM_THEME,
     }
 
 
